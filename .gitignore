@@ -1,0 +1,31 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Python virtual environment
+venv/
+.venv/
+env/
+ENV/
+
+# Node dependencies & build outputs
+node_modules/
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+
+# Environment variables
+.env
+.env.local
+backend/.env
+frontend/.env
+
+# IDE & OS files
+.DS_Store
+.vscode/
+.idea/
+
+# Database / SQLite temporary files
+*.sqlite3
+*.db

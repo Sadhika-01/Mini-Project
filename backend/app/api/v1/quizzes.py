@@ -61,7 +61,8 @@ def generate_quiz(
         title = f"Quiz on {resource.filename}"
         group_id = resource.group_id
 
-        if resource.file_type.lower() == "pdf":
+        is_pdf = "pdf" in resource.file_type.lower() or resource.filename.lower().endswith(".pdf")
+        if is_pdf:
             filepath = storage_service.get_file_path(resource.storage_location)
             if not filepath or not os.path.exists(filepath):
                 raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="PDF resource file not found on disk.")

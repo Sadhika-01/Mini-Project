@@ -193,7 +193,8 @@ def summarize_pdf_resource(
     if not resource:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Resource file not found.")
 
-    if resource.file_type.lower() != "pdf":
+    is_pdf = "pdf" in resource.file_type.lower() or resource.filename.lower().endswith(".pdf")
+    if not is_pdf:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="AI Summarization is currently supported for PDF files only.")
 
     membership = db.query(GroupMember).filter(

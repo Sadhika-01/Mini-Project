@@ -15,7 +15,7 @@ class AIService:
         self.client = None
         is_configured = bool(self.api_key and self.api_key != "your_gemini_api_key_here")
         print(f"[AI DEBUG] Gemini API key configured: {is_configured}")
-        print(f"[AI DEBUG] Model: gemini-2.5-flash")
+        print(f"[AI DEBUG] Model: gemini-3.6-flash")
         
         if is_configured:
             try:
@@ -40,7 +40,7 @@ class AIService:
                 config["system_instruction"] = system_instruction
 
             response = self.client.models.generate_content(
-                model="gemini-2.5-flash",
+                model="gemini-3.6-flash",
                 contents=prompt,
                 config=config if config else None
             )

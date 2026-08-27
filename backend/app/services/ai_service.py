@@ -13,18 +13,28 @@ class AIService:
     def __init__(self):
         self.api_key = settings.GEMINI_API_KEY or os.getenv("GEMINI_API_KEY", "")
         self.client = None
-        if self.api_key and self.api_key != "your_gemini_api_key_here":
+        is_configured = bool(self.api_key and self.api_key != "your_gemini_api_key_here")
+        print(f"[AI DEBUG] Gemini API key configured: {is_configured}")
+        print(f"[AI DEBUG] Model: gemini-2.5-flash")
+        
+        if is_configured:
             try:
                 self.client = genai.Client(api_key=self.api_key)
+                print(f"[AI DEBUG] Gemini client initialized: true")
             except Exception as e:
+                print(f"[AI DEBUG] Gemini client initialized: false (error: {e})")
                 logger.error(f"Failed to initialize Gemini Client: {e}")
+        else:
+            print(f"[AI DEBUG] Gemini client initialized: false (using academic fallback engine)")
 
     def _generate_with_gemini(self, prompt: str, system_instruction: Optional[str] = None) -> Optional[str]:
         """Internal helper to call Gemini API using google-genai SDK."""
         if not self.client:
+            print(f"[AI DEBUG] Gemini client not initialized. Falling back to structured academic output.")
             return None
 
         try:
+            print(f"[AI DEBUG] Calling Gemini")
             config = {}
             if system_instruction:
                 config["system_instruction"] = system_instruction
@@ -34,8 +44,10 @@ class AIService:
                 contents=prompt,
                 config=config if config else None
             )
+            print(f"[AI DEBUG] Gemini response received")
             return response.text
         except Exception as e:
+            print(f"[AI DEBUG] Gemini API call error: {e}")
             logger.error(f"Gemini API generation error: {e}")
             return None
 

@@ -234,7 +234,11 @@ async def study_meeting_websocket(
     except Exception as e:
         logger.error(f"WebSocket meeting error in group {group_id} for user {user_id}: {e}")
     finally:
+        print(f"[MEETING DEBUG] participant disconnected: {user_id}")
         meeting_manager.disconnect(group_id, user_id)
+        remaining = list(meeting_manager.active_meetings.get(group_id, {}).keys())
+        print(f"[MEETING DEBUG] broadcasting participant_left: {user_id}")
+        print(f"[MEETING DEBUG] remaining participants: {remaining}")
 
         # Broadcast participant_left to remaining peers
         await meeting_manager.broadcast(

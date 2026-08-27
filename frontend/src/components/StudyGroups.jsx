@@ -18,7 +18,12 @@ import {
   CheckCircle,
   AlertCircle,
   Loader2,
-  Video
+  Video,
+  Share2,
+  Copy,
+  Check,
+  FileText,
+  Info
 } from 'lucide-react';
 
 export default function StudyGroups() {
@@ -42,12 +47,20 @@ export default function StudyGroups() {
   const [workspaceDetails, setWorkspaceDetails] = useState(null);
   const [workspaceLoading, setWorkspaceLoading] = useState(false);
 
-  // Workspace Mode State: 'chat' | 'meeting'
-  const [workspaceMode, setWorkspaceMode] = useState('chat');
+  // Workspace Mode State: 'overview' | 'chat' | 'meeting'
+  const [workspaceMode, setWorkspaceMode] = useState('overview');
 
   // Backend Meeting Status State: { [group_id]: { active: boolean, participant_count: number } }
   const [meetingStatuses, setMeetingStatuses] = useState({});
   const [joiningMeeting, setJoiningMeeting] = useState(false);
+
+  // Share Group Link Modal & Copy State
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [linkCopied, setLinkCopied] = useState(false);
+
+  // Invitation URL Join State (for ?join_group=XYZ)
+  const [invitePreview, setInvitePreview] = useState(null);
+  const [joiningInvite, setJoiningInvite] = useState(false);
 
   // Real-Time Chat States
   const [chatMessages, setChatMessages] = useState([]);
@@ -95,6 +108,38 @@ export default function StudyGroups() {
       return () => clearInterval(interval);
     }
   }, [selectedGroup, token]);
+
+  // Check URL query parameters for ?join_group=XYZ link invitation
+  useEffect(() => {
+    const checkInviteLink = async () => {
+      const params = new URLSearchParams(window.location.search);
+      const joinGroupId = params.get('join_group');
+
+      if (joinGroupId && token) {
+        try {
+          const res = await fetch(`${API_BASE_URL}/api/v1/groups/${joinGroupId}/preview`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+          });
+
+          if (res.ok) {
+            const previewData = await res.json();
+            if (previewData.is_member) {
+              // User is already a member -> Open workspace directly
+              handleOpenWorkspace(previewData, 'overview');
+              window.history.replaceState({}, document.title, window.location.pathname);
+            } else {
+              // User is not a member -> Show Join Group invitation modal
+              setInvitePreview(previewData);
+            }
+          }
+        } catch (e) {
+          console.error("Failed to check join group invite link:", e);
+        }
+      }
+    };
+
+    checkInviteLink();
+  }, [token]);
 
   // Fetch groups list
   const fetchGroups = async () => {
@@ -182,12 +227,29 @@ export default function StudyGroups() {
 
       if (res.ok) {
         fetchGroups();
+        return true;
       } else {
         const errData = await res.json();
         alert(errData.detail || 'Failed to join group.');
+        return false;
       }
     } catch (err) {
       alert('Network error while joining group.');
+      return false;
+    }
+  };
+
+  // Accept Invite Link Join
+  const handleAcceptInvite = async () => {
+    if (!invitePreview) return;
+    setJoiningInvite(true);
+    const success = await handleJoinGroup(invitePreview.id);
+    setJoiningInvite(false);
+    if (success) {
+      const groupData = { ...invitePreview, is_member: true };
+      setInvitePreview(null);
+      window.history.replaceState({}, document.title, window.location.pathname);
+      handleOpenWorkspace(groupData, 'overview');
     }
   };
 
@@ -215,8 +277,8 @@ export default function StudyGroups() {
     }
   };
 
-  // Open Workspace & Connect WebSockets Chat
-  const handleOpenWorkspace = async (group, initialMode = 'chat') => {
+  // Open Workspace (Default mode is 'overview')
+  const handleOpenWorkspace = async (group, initialMode = 'overview') => {
     setSelectedGroup(group);
     setWorkspaceMode(initialMode);
     setWorkspaceLoading(true);
@@ -294,7 +356,16 @@ export default function StudyGroups() {
     }
     setSelectedGroup(null);
     setWorkspaceDetails(null);
-    setWorkspaceMode('chat');
+    setWorkspaceMode('overview');
+  };
+
+  // Copy Share Group Invitation Link
+  const handleCopyShareLink = () => {
+    if (!selectedGroup) return;
+    const shareUrl = `${window.location.origin}?join_group=${selectedGroup.id}`;
+    navigator.clipboard.writeText(shareUrl);
+    setLinkCopied(true);
+    setTimeout(() => setLinkCopied(false), 2500);
   };
 
   // Send Chat Message via WebSocket
@@ -316,34 +387,186 @@ export default function StudyGroups() {
 
   return (
     <div className="space-y-6">
+
+      {/* Public Share Invite Modal */}
+      {invitePreview && (
+        <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-5 text-center">
+            <div className="w-12 h-12 rounded-2xl bg-indigo-600/20 border border-indigo-500/40 text-indigo-400 flex items-center justify-center mx-auto">
+              <Users className="w-6 h-6" />
+            </div>
+            <div>
+              <span className="text-xs font-semibold text-indigo-400 uppercase tracking-wider block mb-1">
+                Group Invitation
+              </span>
+              <h3 className="text-xl font-bold text-white leading-tight">{invitePreview.name}</h3>
+              <p className="text-slate-400 text-xs mt-2 leading-relaxed">
+                {invitePreview.description || 'Join this study group to collaborate on notes, participate in live chat, and start WebRTC meetings.'}
+              </p>
+            </div>
+
+            <div className="p-3 bg-slate-950 border border-slate-800/80 rounded-xl flex items-center justify-around text-xs font-mono text-slate-300">
+              <span>{invitePreview.member_count} Members</span>
+              <span>•</span>
+              <span>Created by {invitePreview.creator_name}</span>
+            </div>
+
+            <div className="flex items-center space-x-3 pt-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setInvitePreview(null);
+                  window.history.replaceState({}, document.title, window.location.pathname);
+                }}
+                className="flex-1 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-semibold"
+              >
+                Decline
+              </button>
+              <button
+                type="button"
+                onClick={handleAcceptInvite}
+                disabled={joiningInvite}
+                className="flex-1 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold shadow-lg disabled:opacity-50 flex items-center justify-center space-x-1.5"
+              >
+                <UserPlus className="w-4 h-4" />
+                <span>{joiningInvite ? 'Joining...' : 'Join Group'}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Share Group Modal */}
+      {showShareModal && selectedGroup && (
+        <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4">
+            <div className="flex justify-between items-center pb-2 border-b border-slate-800">
+              <div className="flex items-center space-x-2">
+                <Share2 className="w-5 h-5 text-indigo-400" />
+                <h3 className="text-base font-bold text-white">Share Study Group</h3>
+              </div>
+              <button
+                onClick={() => setShowShareModal(false)}
+                className="text-slate-400 hover:text-white text-xs font-semibold"
+              >
+                ✕
+              </button>
+            </div>
+
+            <p className="text-slate-400 text-xs leading-relaxed">
+              Share this invitation link with classmates so they can view the group preview and join <strong>{selectedGroup.name}</strong>.
+            </p>
+
+            <div className="space-y-2">
+              <label className="block text-[11px] font-semibold text-slate-400 uppercase">Invitation Link</label>
+              <div className="flex items-center space-x-2">
+                <input
+                  type="text"
+                  readOnly
+                  value={`${window.location.origin}?join_group=${selectedGroup.id}`}
+                  className="flex-1 px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-indigo-300 text-xs font-mono focus:outline-none"
+                />
+                <button
+                  onClick={handleCopyShareLink}
+                  className={`px-4 py-2.5 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 shadow-md ${
+                    linkCopied
+                      ? 'bg-emerald-600 text-white'
+                      : 'bg-indigo-600 hover:bg-indigo-500 text-white'
+                  }`}
+                >
+                  {linkCopied ? (
+                    <>
+                      <Check className="w-4 h-4" />
+                      <span>Copied!</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-4 h-4" />
+                      <span>Copy Link</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+
+            {linkCopied && (
+              <p className="text-[11px] text-emerald-400 font-medium text-center">
+                ✓ Link copied to clipboard! Anyone logged in can join this group using this link.
+              </p>
+            )}
+
+            <div className="flex justify-end pt-2">
+              <button
+                onClick={() => setShowShareModal(false)}
+                className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-semibold"
+              >
+                Done
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* If Workspace is open, show Workspace View */}
       {selectedGroup ? (
         <div className="space-y-6">
-          {/* Workspace Top Header */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-900 border border-slate-800 p-6 rounded-2xl">
-            <div>
-              <button
-                onClick={handleCloseWorkspace}
-                className="text-xs text-indigo-400 hover:text-indigo-300 font-semibold mb-2 block"
-              >
-                ← Back to All Groups
-              </button>
-              <div className="flex flex-wrap items-center gap-3">
-                <h2 className="text-2xl font-extrabold text-white">{selectedGroup.name}</h2>
-                <span className="px-2.5 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded-md text-xs font-mono">
-                  {workspaceDetails?.member_count || selectedGroup.member_count} Members
-                </span>
-                {meetingStatuses[selectedGroup.id]?.active && (
-                  <span className="px-2.5 py-1 bg-rose-500/10 text-rose-400 border border-rose-500/30 rounded-md text-xs font-mono animate-pulse">
-                    🔴 Active Meeting ({meetingStatuses[selectedGroup.id].participant_count} Live)
+          {/* Central Study Group Workspace Header */}
+          <div className="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-4 shadow-xl">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <button
+                  onClick={handleCloseWorkspace}
+                  className="text-xs text-indigo-400 hover:text-indigo-300 font-semibold mb-2 block"
+                >
+                  ← Back to All Groups
+                </button>
+                <div className="flex flex-wrap items-center gap-3">
+                  <h2 className="text-2xl font-extrabold text-white">{selectedGroup.name}</h2>
+                  <span className="px-2.5 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded-md text-xs font-mono">
+                    {workspaceDetails?.member_count || selectedGroup.member_count} Members
                   </span>
-                )}
+                  {meetingStatuses[selectedGroup.id]?.active && (
+                    <span className="px-2.5 py-1 bg-rose-500/10 text-rose-400 border border-rose-500/30 rounded-md text-xs font-mono animate-pulse">
+                      🔴 Active Meeting ({meetingStatuses[selectedGroup.id].participant_count} Live)
+                    </span>
+                  )}
+                </div>
+                <p className="text-slate-400 text-sm mt-1">{selectedGroup.description || 'Dedicated study workspace for group members.'}</p>
               </div>
-              <p className="text-slate-400 text-sm mt-1">{selectedGroup.description || 'Dedicated study workspace for group members.'}</p>
+
+              <button
+                onClick={() => handleLeaveGroup(selectedGroup.id)}
+                className="px-3.5 py-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 rounded-xl text-xs font-semibold transition flex items-center space-x-1 shrink-0"
+              >
+                <LogOut className="w-3.5 h-3.5" />
+                <span>Leave Group</span>
+              </button>
             </div>
 
-            <div className="flex items-center space-x-3 shrink-0">
-              {workspaceMode === 'chat' ? (
+            {/* Central Workspace Main Actions Bar (Overview | Live Chat | Study Meeting | Share Group) */}
+            <div className="pt-3 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3">
+              <div className="flex items-center space-x-2 bg-slate-950 p-1 rounded-xl border border-slate-800 text-xs font-semibold">
+                <button
+                  onClick={() => setWorkspaceMode('overview')}
+                  className={`px-4 py-2 rounded-lg transition ${
+                    workspaceMode === 'overview'
+                      ? 'bg-indigo-600 text-white shadow-md'
+                      : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  📋 Workspace Overview
+                </button>
+                <button
+                  onClick={() => setWorkspaceMode('chat')}
+                  className={`px-4 py-2 rounded-lg transition flex items-center space-x-1.5 ${
+                    workspaceMode === 'chat'
+                      ? 'bg-indigo-600 text-white shadow-md'
+                      : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  <MessageSquare className="w-3.5 h-3.5" />
+                  <span>Live Chat</span>
+                </button>
                 <button
                   onClick={async () => {
                     setJoiningMeeting(true);
@@ -352,38 +575,34 @@ export default function StudyGroups() {
                     setJoiningMeeting(false);
                   }}
                   disabled={joiningMeeting}
-                  className="px-4 py-2.5 bg-gradient-to-r from-rose-600 to-indigo-600 hover:from-rose-500 hover:to-indigo-500 text-white font-bold rounded-xl text-xs shadow-lg transition flex items-center space-x-2 disabled:opacity-50"
+                  className={`px-4 py-2 rounded-lg transition flex items-center space-x-1.5 ${
+                    workspaceMode === 'meeting'
+                      ? 'bg-rose-600 text-white shadow-md'
+                      : 'text-slate-400 hover:text-slate-200'
+                  }`}
                 >
-                  <Video className="w-4 h-4" />
+                  <Video className="w-3.5 h-3.5" />
                   <span>
                     {joiningMeeting
                       ? '⏳ Joining Meeting...'
                       : meetingStatuses[selectedGroup.id]?.active
                         ? `🎥 Join Meeting (${meetingStatuses[selectedGroup.id].participant_count} Active)`
-                        : '🎥 Start Meeting'}
+                        : '🎥 Study Meeting'}
                   </span>
                 </button>
-              ) : (
-                <button
-                  onClick={() => setWorkspaceMode('chat')}
-                  className="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded-xl text-xs transition flex items-center space-x-2"
-                >
-                  <MessageSquare className="w-4 h-4 text-indigo-400" />
-                  <span>Switch to Live Chat</span>
-                </button>
-              )}
+              </div>
 
               <button
-                onClick={() => handleLeaveGroup(selectedGroup.id)}
-                className="px-3.5 py-2.5 bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 rounded-xl text-xs font-semibold transition flex items-center space-x-1"
+                onClick={() => setShowShareModal(true)}
+                className="px-4 py-2 bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 border border-indigo-500/40 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 shadow-md"
               >
-                <LogOut className="w-3.5 h-3.5" />
-                <span>Leave Group</span>
+                <Share2 className="w-4 h-4 text-indigo-400" />
+                <span>🔗 Share Group</span>
               </button>
             </div>
           </div>
 
-          {/* Workspace Content: Meeting Room OR Live Chat + Roster */}
+          {/* Workspace Content View: Overview OR Live Chat OR Meeting Room */}
           {workspaceMode === 'meeting' ? (
             <StudyMeetingRoom
               groupId={selectedGroup.id}
@@ -391,11 +610,11 @@ export default function StudyGroups() {
               token={token}
               currentUser={user}
               onClose={() => {
-                setWorkspaceMode('chat');
+                setWorkspaceMode('overview');
                 if (selectedGroup) fetchMeetingStatus(selectedGroup.id);
               }}
             />
-          ) : (
+          ) : workspaceMode === 'chat' ? (
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {/* Left 2 Cols: Real-Time Group Chat Box */}
               <div className="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl flex flex-col h-[560px]">
@@ -491,6 +710,108 @@ export default function StudyGroups() {
                   </div>
                 )}
               </div>
+            </div>
+          ) : (
+            /* DEFAULT CENTRAL WORKSPACE OVERVIEW VIEW */
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+              {/* Left 2 Cols: Group Overview Details & Actions */}
+              <div className="lg:col-span-2 space-y-6">
+
+                {/* Workspace Action Hub Cards */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div
+                    onClick={() => setWorkspaceMode('chat')}
+                    className="p-5 bg-slate-900 border border-slate-800 hover:border-indigo-500/40 rounded-2xl shadow-xl cursor-pointer transition group"
+                  >
+                    <div className="w-10 h-10 rounded-xl bg-indigo-600/20 text-indigo-400 flex items-center justify-center mb-3 group-hover:scale-105 transition">
+                      <MessageSquare className="w-5 h-5" />
+                    </div>
+                    <h4 className="text-base font-bold text-white group-hover:text-indigo-300 transition">Group Live Chat</h4>
+                    <p className="text-slate-400 text-xs mt-1">Real-time WebSockets group discussions with PostgreSQL history.</p>
+                  </div>
+
+                  <div
+                    onClick={async () => {
+                      setJoiningMeeting(true);
+                      await fetchMeetingStatus(selectedGroup.id);
+                      setWorkspaceMode('meeting');
+                      setJoiningMeeting(false);
+                    }}
+                    className="p-5 bg-slate-900 border border-slate-800 hover:border-rose-500/40 rounded-2xl shadow-xl cursor-pointer transition group"
+                  >
+                    <div className="w-10 h-10 rounded-xl bg-rose-600/20 text-rose-400 flex items-center justify-center mb-3 group-hover:scale-105 transition">
+                      <Video className="w-5 h-5" />
+                    </div>
+                    <h4 className="text-base font-bold text-white group-hover:text-rose-300 transition">
+                      {meetingStatuses[selectedGroup.id]?.active ? 'Join Active Meeting' : 'Virtual Study Meeting'}
+                    </h4>
+                    <p className="text-slate-400 text-xs mt-1">
+                      {meetingStatuses[selectedGroup.id]?.active
+                        ? `Meeting currently in progress (${meetingStatuses[selectedGroup.id].participant_count} members connected).`
+                        : 'Start Google-Meet-style WebRTC video/audio conferencing.'}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Group Information & Subject Metadata */}
+                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
+                  <div className="flex items-center space-x-2 pb-3 border-b border-slate-800">
+                    <Info className="w-5 h-5 text-indigo-400" />
+                    <h3 className="text-base font-bold text-white">Group Information</h3>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                    <div className="p-3 bg-slate-950 border border-slate-800/80 rounded-xl">
+                      <span className="text-slate-500 block mb-1">Created By</span>
+                      <span className="font-semibold text-white">{workspaceDetails?.creator_name || selectedGroup.creator_name || 'Admin'}</span>
+                    </div>
+                    <div className="p-3 bg-slate-950 border border-slate-800/80 rounded-xl">
+                      <span className="text-slate-500 block mb-1">Created On</span>
+                      <span className="font-semibold text-white">{new Date(selectedGroup.created_at).toLocaleDateString()}</span>
+                    </div>
+                  </div>
+
+                  <div>
+                    <span className="text-xs text-slate-400 font-semibold block mb-1">Description</span>
+                    <p className="text-slate-300 text-xs leading-relaxed p-3 bg-slate-950 border border-slate-800/80 rounded-xl">
+                      {selectedGroup.description || 'No additional description provided for this study workspace.'}
+                    </p>
+                  </div>
+                </div>
+
+              </div>
+
+              {/* Right 1 Col: Group Roster Sidebar */}
+              <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
+                <div className="flex items-center space-x-2 pb-3 border-b border-slate-800">
+                  <Users className="w-5 h-5 text-emerald-400" />
+                  <h3 className="text-base font-bold text-white">Group Roster ({workspaceDetails?.member_count || selectedGroup.member_count})</h3>
+                </div>
+
+                {workspaceLoading ? (
+                  <div className="py-8 text-center text-slate-400 text-xs">Loading members...</div>
+                ) : (
+                  <div className="space-y-3 max-h-[460px] overflow-y-auto">
+                    {workspaceDetails?.members?.map((m) => (
+                      <div key={m.id} className="p-3 bg-slate-950/60 border border-slate-800/80 rounded-xl flex items-center space-x-3">
+                        <div className="w-8 h-8 rounded-lg bg-indigo-600/30 border border-indigo-500/40 text-indigo-300 font-bold text-xs flex items-center justify-center">
+                          {m.name[0].toUpperCase()}
+                        </div>
+                        <div className="truncate">
+                          <p className="text-xs font-semibold text-white truncate">
+                            {m.name} {m.user_id === user?.id && '(You)'}
+                          </p>
+                          <p className="text-[10px] text-slate-400 font-mono">
+                            Joined {new Date(m.joined_at).toLocaleDateString()}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
             </div>
           )}
         </div>
@@ -634,7 +955,12 @@ export default function StudyGroups() {
                           </span>
                         )}
                       </div>
-                      <h3 className="text-lg font-bold text-white group-hover:text-indigo-300 transition line-clamp-1">
+                      <h3
+                        onClick={() => g.is_member && handleOpenWorkspace(g, 'overview')}
+                        className={`text-lg font-bold text-white line-clamp-1 transition ${
+                          g.is_member ? 'hover:text-indigo-300 cursor-pointer' : ''
+                        }`}
+                      >
                         {g.name}
                       </h3>
                       <p className="text-slate-400 text-xs line-clamp-2 leading-relaxed">
@@ -647,23 +973,10 @@ export default function StudyGroups() {
                       {g.is_member ? (
                         <>
                           <button
-                            onClick={() => handleOpenWorkspace(g, 'chat')}
+                            onClick={() => handleOpenWorkspace(g, 'overview')}
                             className="flex-1 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl text-xs transition flex items-center justify-center space-x-1.5 shadow-md"
                           >
-                            <MessageSquare className="w-3.5 h-3.5" />
-                            <span>Live Chat</span>
-                          </button>
-                          <button
-                            onClick={() => handleOpenWorkspace(g, 'meeting')}
-                            className={`px-3 py-2 text-white font-semibold rounded-xl text-xs transition flex items-center justify-center space-x-1 shadow-md ${
-                              isMeetingActive
-                                ? 'bg-gradient-to-r from-rose-600 to-rose-700 hover:from-rose-500 hover:to-rose-600 animate-pulse'
-                                : 'bg-gradient-to-r from-rose-600 to-indigo-600 hover:from-rose-500 hover:to-indigo-500'
-                            }`}
-                            title={isMeetingActive ? "Join Active Virtual Meeting" : "Start Virtual Meeting"}
-                          >
-                            <Video className="w-3.5 h-3.5" />
-                            <span>{isMeetingActive ? 'Join Meeting' : 'Start Meeting'}</span>
+                            <span>Open Workspace</span>
                           </button>
                           <button
                             onClick={() => handleLeaveGroup(g.id)}

@@ -227,8 +227,13 @@ export default function StudyMeetingRoom({ groupId, groupName, token, currentUse
         break;
 
       case 'participant_left':
-        console.log(`[WebRTC] Participant left: ${sender_id}`);
-        closePeerConnection(sender_id);
+        {
+          const targetUserId = sender_id || msg.user_id;
+          console.log(`[MEETING DEBUG] participant_left received: user_id=${msg.user_id}, sender_id=${sender_id}`);
+          console.log("[MEETING DEBUG] peers BEFORE removal:", peers);
+          console.log("[MEETING DEBUG] closePeerConnection called:", targetUserId);
+          closePeerConnection(targetUserId);
+        }
         break;
 
       default:
@@ -350,15 +355,35 @@ export default function StudyMeetingRoom({ groupId, groupName, token, currentUse
     }
   };
 
-  // Close peer connection for a participant
+  // Close peer connection for a participant and clean up remote video stream
   const closePeerConnection = (userId) => {
+    console.log(`[WebRTC] Closing peer connection and removing participant: ${userId}`);
     if (peerConnections.current[userId]) {
-      peerConnections.current[userId].close();
+      const pc = peerConnections.current[userId];
+      console.log(`[MEETING DEBUG] peer connection state (${userId}):`, pc.connectionState);
+      try {
+        pc.getSenders().forEach(s => {
+          try { pc.removeTrack(s); } catch (e) {}
+        });
+      } catch (e) {}
+      try {
+        pc.close();
+      } catch (e) {}
       delete peerConnections.current[userId];
     }
     setPeers(prev => {
+      console.log(`[MEETING DEBUG] REMOVE PEER: ${userId}`);
       const copy = { ...prev };
-      delete copy[userId];
+      if (copy[userId]) {
+        if (copy[userId].stream) {
+          console.log(`[MEETING DEBUG] remote stream tracks for ${userId}:`, copy[userId].stream.getTracks());
+          try {
+            copy[userId].stream.getTracks().forEach(track => track.stop());
+          } catch (e) {}
+        }
+        delete copy[userId];
+      }
+      console.log("[MEETING DEBUG] peers AFTER removal:", copy);
       return copy;
     });
   };
@@ -647,18 +672,36 @@ function RemoteVideoTile({ peer }) {
   const remoteVideoRef = useRef(null);
 
   useEffect(() => {
-    if (remoteVideoRef.current && peer.stream) {
-      remoteVideoRef.current.srcObject = peer.stream;
-      remoteVideoRef.current.play().catch(e => console.warn("Video play error:", e));
+    const videoEl = remoteVideoRef.current;
+    if (videoEl && peer.stream) {
+      videoEl.srcObject = peer.stream;
+      videoEl.play().catch(e => console.warn("Video play error:", e));
     }
-  }, [peer.stream]);
+
+    return () => {
+      console.log(`[MEETING DEBUG] RemoteVideoTile unmounting: ${peer.user_id}`);
+      if (videoEl) {
+        console.log(`[MEETING DEBUG] Video props before removal - paused: ${videoEl.paused}, readyState: ${videoEl.readyState}, width: ${videoEl.videoWidth}, height: ${videoEl.videoHeight}`);
+        try {
+          videoEl.pause();
+          videoEl.srcObject = null;
+        } catch (e) {}
+        console.log(`[MEETING DEBUG] video.srcObject after reset:`, videoEl.srcObject);
+      }
+    };
+  }, [peer.stream, peer.user_id]);
 
   return (
-    <div className="relative bg-slate-900 border border-slate-800 rounded-xl overflow-hidden min-h-[220px] flex items-center justify-center shadow-lg">
+    <div
+      data-peer-id={peer.user_id}
+      className="relative bg-slate-900 border border-slate-800 rounded-xl overflow-hidden min-h-[220px] flex items-center justify-center shadow-lg"
+    >
       <video
         ref={remoteVideoRef}
         autoPlay
         playsInline
+        data-peer-id={peer.user_id}
+        data-video-role="remote"
         className={`w-full h-full object-cover rounded-xl ${(!peer.videoEnabled || !peer.stream) ? 'hidden' : ''}`}
       />
 

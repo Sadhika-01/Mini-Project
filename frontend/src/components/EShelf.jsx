@@ -933,8 +933,8 @@ export default function EShelf() {
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end space-x-2">
-                        {/* AI Tools for PDFs */}
-                        {res.file_type.toLowerCase() === 'pdf' && (
+                        {/* AI Tools for Study Resources */}
+                        {true && (
                           <>
                             <button
                               onClick={() => handleGenerateFlashcards(res.id, res.filename)}

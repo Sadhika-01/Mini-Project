@@ -142,6 +142,36 @@ def get_group_details(
         members=member_responses
     )
 
+@router.get("/{group_id}/preview")
+def get_group_preview(
+    group_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    """Retrieve public invitation preview details for a study group."""
+    group = db.query(Group).filter(Group.id == group_id).first()
+    if not group:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Study group not found.")
+
+    member_count = db.query(GroupMember).filter(GroupMember.group_id == group_id).count()
+    is_member = db.query(GroupMember).filter(
+        GroupMember.group_id == group_id,
+        GroupMember.user_id == current_user.id
+    ).first() is not None
+
+    creator = db.query(User).filter(User.id == group.created_by).first()
+
+    return {
+        "id": group.id,
+        "name": group.name,
+        "description": group.description,
+        "created_by": group.created_by,
+        "creator_name": creator.name if creator else "Unknown",
+        "created_at": group.created_at,
+        "member_count": member_count,
+        "is_member": is_member
+    }
+
 @router.post("/{group_id}/join", response_model=GroupResponse)
 def join_group(
     group_id: int,

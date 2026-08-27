@@ -186,50 +186,50 @@ export default function DoubtForum() {
   return (
     <div className="space-y-6">
       {/* Header Banner */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-gradient-to-r from-indigo-900/50 via-slate-900 to-slate-900 border border-indigo-500/30 p-6 rounded-2xl">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-[#2E003E] text-white p-6 rounded-2xl shadow-md">
         <div>
-          <div className="flex items-center space-x-2 text-indigo-400 text-xs font-semibold uppercase tracking-wider mb-1">
-            <Sparkles className="w-3.5 h-3.5" />
+          <div className="flex items-center space-x-2 text-[#FFB7C5] text-xs font-semibold uppercase tracking-wider mb-1">
+            <Sparkles className="w-3.5 h-3.5 text-[#FFB7C5]" />
             <span>Google Gemini AI-Powered Q&A</span>
           </div>
           <h2 className="text-2xl font-bold text-white">Doubt Forum</h2>
-          <p className="text-slate-400 text-sm mt-1">
+          <p className="text-white/80 text-sm mt-1">
             Ask technical doubts, get community answers, and generate instant AI explanations.
           </p>
         </div>
         <button
           onClick={() => setShowAskModal(true)}
-          className="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl shadow-lg transition flex items-center space-x-2 text-sm shrink-0"
+          className="px-4 py-2.5 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl shadow-md transition flex items-center space-x-2 text-sm shrink-0 border border-[#FFB7C5]/30"
         >
-          <PlusCircle className="w-4 h-4" />
+          <PlusCircle className="w-4 h-4 text-[#FFB7C5]" />
           <span>Ask a Doubt</span>
         </button>
       </div>
 
       {/* Search Bar */}
       <div className="relative">
-        <Search className="w-4 h-4 text-slate-400 absolute left-4 top-3.5" />
+        <Search className="w-4 h-4 text-[#756A78] absolute left-4 top-3.5" />
         <input
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search doubts by topic, keyword, or course subject..."
-          className="w-full pl-11 pr-4 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 text-sm"
+          className="w-full pl-11 pr-4 py-2.5 rounded-xl bg-white border border-[#E8DDEB] text-[#241A26] placeholder-[#756A78] focus:outline-none focus:border-[#2E003E] text-sm shadow-sm"
         />
       </div>
 
       {/* Ask Doubt Modal */}
       {showAskModal && (
-        <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4">
-            <h3 className="text-lg font-bold text-white">Post Your Study Doubt</h3>
+        <div className="fixed inset-0 bg-[#2E003E]/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white border border-[#E8DDEB] rounded-2xl max-w-lg w-full p-6 shadow-xl space-y-4">
+            <h3 className="text-lg font-bold text-[#2E003E]">Post Your Study Doubt</h3>
             <form onSubmit={handleAskSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-300 uppercase mb-1">Subject / Category</label>
+                <label className="block text-xs font-semibold text-[#2E003E] uppercase mb-1">Subject / Category</label>
                 <select
                   value={newQuestionCategory}
                   onChange={(e) => setNewQuestionCategory(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-lg text-white text-sm"
+                  className="w-full px-3 py-2 bg-[#F8F3F9] border border-[#E8DDEB] rounded-lg text-[#241A26] text-sm"
                 >
                   <option value="Cloud Computing">Cloud Computing</option>
                   <option value="Machine Learning">Machine Learning</option>
@@ -239,27 +239,27 @@ export default function DoubtForum() {
                 </select>
               </div>
               <div>
-                <label className="block text-xs font-semibold text-slate-300 uppercase mb-1">Your Question</label>
+                <label className="block text-xs font-semibold text-[#2E003E] uppercase mb-1">Your Question</label>
                 <textarea
                   value={newQuestionTitle}
                   onChange={(e) => setNewQuestionTitle(e.target.value)}
                   rows={4}
                   placeholder="Type your question or concept doubt clearly..."
                   required
-                  className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-lg text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500"
+                  className="w-full px-3 py-2 bg-[#F8F3F9] border border-[#E8DDEB] rounded-lg text-[#241A26] placeholder-[#756A78] text-sm focus:outline-none focus:border-[#2E003E]"
                 />
               </div>
               <div className="flex justify-end space-x-3 pt-2">
                 <button
                   type="button"
                   onClick={() => setShowAskModal(false)}
-                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold"
+                  className="px-4 py-2 bg-[#F8F3F9] hover:bg-[#E8DDEB] text-[#756A78] border border-[#E8DDEB] rounded-lg text-xs font-semibold"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-semibold shadow-lg"
+                  className="px-4 py-2 bg-[#2E003E] hover:opacity-90 text-white rounded-lg text-xs font-semibold shadow-md"
                 >
                   Post Question
                 </button>
@@ -272,20 +272,20 @@ export default function DoubtForum() {
       {/* Doubts List */}
       <div className="space-y-6">
         {filteredDoubts.length === 0 ? (
-          <div className="text-center py-12 bg-slate-900/60 border border-slate-800 rounded-2xl text-slate-400 text-sm">
+          <div className="text-center py-12 bg-white border border-[#E8DDEB] rounded-2xl text-[#756A78] text-sm shadow-sm">
             No doubts found matching your search. Be the first to ask!
           </div>
         ) : (
           filteredDoubts.map((doubt) => (
-            <div key={doubt.id} className="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
+            <div key={doubt.id} className="bg-white border border-[#E8DDEB] rounded-2xl p-6 shadow-sm space-y-4">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <span className="inline-block px-2.5 py-1 bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 rounded-md text-xs font-mono mb-2">
+                  <span className="inline-block px-2.5 py-1 bg-[#F8F3F9] border border-[#E8DDEB] text-[#2E003E] font-bold rounded-md text-xs font-mono mb-2">
                     {doubt.category}
                   </span>
-                  <h3 className="text-lg font-bold text-white leading-snug">{doubt.title}</h3>
-                  <div className="flex items-center space-x-3 text-xs text-slate-400 mt-2">
-                    <span>Asked by <strong className="text-slate-200">{doubt.author}</strong></span>
+                  <h3 className="text-lg font-bold text-[#241A26] leading-snug">{doubt.title}</h3>
+                  <div className="flex items-center space-x-3 text-xs text-[#756A78] mt-2">
+                    <span>Asked by <strong className="text-[#2E003E]">{doubt.author}</strong></span>
                     <span>•</span>
                     <span>{doubt.time}</span>
                   </div>
@@ -295,7 +295,7 @@ export default function DoubtForum() {
                 <button
                   onClick={() => handleAiExplain(doubt.id, doubt.title, doubt.category)}
                   disabled={loadingAiId === doubt.id}
-                  className="px-3.5 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white text-xs font-semibold rounded-xl shadow-md transition flex items-center space-x-1.5 shrink-0 disabled:opacity-50"
+                  className="px-3.5 py-2 bg-[#2E003E] hover:opacity-90 text-white text-xs font-semibold rounded-xl shadow-md transition flex items-center space-x-1.5 shrink-0 disabled:opacity-50 border border-[#FFB7C5]/30"
                 >
                   {loadingAiId === doubt.id ? (
                     <>
@@ -304,7 +304,7 @@ export default function DoubtForum() {
                     </>
                   ) : (
                     <>
-                      <Bot className="w-3.5 h-3.5" />
+                      <Bot className="w-3.5 h-3.5 text-[#FFB7C5]" />
                       <span>AI Explain</span>
                     </>
                   )}
@@ -313,32 +313,32 @@ export default function DoubtForum() {
 
               {/* AI Generated Explanation Card */}
               {doubt.aiExplanation && (
-                <div className="p-4 bg-indigo-950/40 border border-indigo-500/40 rounded-xl space-y-2">
-                  <div className="flex items-center space-x-2 text-indigo-300 text-xs font-bold uppercase tracking-wider">
-                    <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
+                <div className="p-4 bg-[#F8F3F9] border border-[#E8DDEB] rounded-xl space-y-2">
+                  <div className="flex items-center space-x-2 text-[#2E003E] text-xs font-bold uppercase tracking-wider">
+                    <Sparkles className="w-3.5 h-3.5 text-[#FFB7C5]" />
                     <span>Gemini AI Assistant Explanation</span>
                   </div>
-                  <pre className="text-xs text-indigo-100 whitespace-pre-wrap font-sans leading-relaxed">
+                  <pre className="text-xs text-[#241A26] whitespace-pre-wrap font-sans leading-relaxed">
                     {doubt.aiExplanation}
                   </pre>
                 </div>
               )}
 
               {/* Community Answers Section */}
-              <div className="border-t border-slate-800/80 pt-4 space-y-3">
-                <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center space-x-1.5">
-                  <MessageSquare className="w-3.5 h-3.5 text-indigo-400" />
+              <div className="border-t border-[#E8DDEB] pt-4 space-y-3">
+                <h4 className="text-xs font-bold text-[#756A78] uppercase tracking-wider flex items-center space-x-1.5">
+                  <MessageSquare className="w-3.5 h-3.5 text-[#2E003E]" />
                   <span>Community Answers ({doubt.answers.length})</span>
                 </h4>
 
                 {doubt.answers.map((ans) => (
-                  <div key={ans.id} className="p-4 bg-slate-950/60 border border-slate-800/80 rounded-xl space-y-2">
+                  <div key={ans.id} className="p-4 bg-[#F8F3F9] border border-[#E8DDEB] rounded-xl space-y-2">
                     <div className="flex justify-between items-center text-xs">
-                      <span className="font-semibold text-slate-300">{ans.author}</span>
+                      <span className="font-semibold text-[#2E003E]">{ans.author}</span>
                       <button
                         onClick={() => handleAiImproveAnswer(doubt.id, ans.id, doubt.title, ans.text)}
                         disabled={loadingImproveId === ans.id}
-                        className="text-[11px] px-2.5 py-1 bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 border border-purple-500/30 rounded-md transition flex items-center space-x-1 disabled:opacity-50"
+                        className="text-[11px] px-2.5 py-1 bg-[#2E003E] hover:opacity-90 text-white border border-[#E8DDEB] rounded-md transition flex items-center space-x-1 disabled:opacity-50 shadow-sm"
                       >
                         {loadingImproveId === ans.id ? (
                           <>
@@ -347,18 +347,18 @@ export default function DoubtForum() {
                           </>
                         ) : (
                           <>
-                            <Sparkles className="w-3 h-3" />
+                            <Sparkles className="w-3 h-3 text-[#FFB7C5]" />
                             <span>AI Improve Answer</span>
                           </>
                         )}
                       </button>
                     </div>
 
-                    <p className="text-sm text-slate-200 leading-relaxed">{ans.text}</p>
+                    <p className="text-sm text-[#241A26] leading-relaxed">{ans.text}</p>
 
                     {/* AI Refined Answer Output */}
                     {ans.aiImprovedText && (
-                      <div className="mt-3 p-3 bg-purple-950/30 border border-purple-500/30 rounded-lg text-xs text-purple-200 whitespace-pre-wrap leading-relaxed font-sans">
+                      <div className="mt-3 p-3 bg-white border border-[#E8DDEB] rounded-lg text-xs text-[#2E003E] whitespace-pre-wrap leading-relaxed font-sans font-medium">
                         {ans.aiImprovedText}
                       </div>
                     )}
@@ -372,11 +372,11 @@ export default function DoubtForum() {
                     value={answerInputs[doubt.id] || ''}
                     onChange={(e) => setAnswerInputs({ ...answerInputs, [doubt.id]: e.target.value })}
                     placeholder="Write a community answer..."
-                    className="flex-1 px-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-indigo-500"
+                    className="flex-1 px-3 py-2 rounded-lg bg-white border border-[#E8DDEB] text-[#241A26] placeholder-[#756A78] text-xs focus:outline-none focus:border-[#2E003E]"
                   />
                   <button
                     onClick={() => handleAddAnswer(doubt.id)}
-                    className="px-3 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-semibold flex items-center space-x-1 transition shrink-0"
+                    className="px-3 py-2 bg-[#2E003E] hover:opacity-90 text-white rounded-lg text-xs font-semibold flex items-center space-x-1 transition shrink-0 shadow-md"
                   >
                     <Send className="w-3.5 h-3.5" />
                     <span>Post</span>

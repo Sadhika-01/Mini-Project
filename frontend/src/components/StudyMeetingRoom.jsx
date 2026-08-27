@@ -532,27 +532,27 @@ export default function StudyMeetingRoom({ groupId, groupName, token, currentUse
   const participantCount = Object.keys(peers).length + 1;
 
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-6 flex flex-col min-h-[580px]">
+    <div className="bg-white border border-[#E8DDEB] rounded-2xl p-6 shadow-xl space-y-6 flex flex-col min-h-[580px]">
 
       {/* Top Meeting Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#E8DDEB]">
         <div>
-          <div className="flex items-center space-x-2 text-rose-400 text-xs font-bold uppercase tracking-wider mb-1">
-            <span className="w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse"></span>
+          <div className="flex items-center space-x-2 text-[#2E003E] text-xs font-bold uppercase tracking-wider mb-1">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
             <span>Live Virtual Study Meeting</span>
           </div>
-          <h3 className="text-xl font-bold text-white leading-tight">{groupName} Meeting Room</h3>
+          <h3 className="text-xl font-bold text-[#2E003E] leading-tight">{groupName} Meeting Room</h3>
         </div>
 
         <div className="flex items-center space-x-3">
-          <span className="px-3 py-1.5 bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 rounded-xl text-xs font-mono font-semibold flex items-center space-x-1.5">
-            <Users className="w-4 h-4" />
+          <span className="px-3 py-1.5 bg-[#F8F3F9] text-[#2E003E] border border-[#E8DDEB] rounded-xl text-xs font-mono font-semibold flex items-center space-x-1.5 shadow-sm">
+            <Users className="w-4 h-4 text-[#2E003E]" />
             <span>{participantCount} {participantCount === 1 ? 'Participant' : 'Participants'} Active</span>
           </span>
 
           <button
             onClick={leaveMeeting}
-            className="px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white font-bold rounded-xl text-xs shadow-lg transition flex items-center space-x-1.5"
+            className="px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white font-bold rounded-xl text-xs shadow-md transition flex items-center space-x-1.5"
           >
             <PhoneOff className="w-4 h-4" />
             <span>Leave Meeting</span>
@@ -562,24 +562,24 @@ export default function StudyMeetingRoom({ groupId, groupName, token, currentUse
 
       {/* Error / Warning Alerts */}
       {error && (
-        <div className="p-4 bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs rounded-xl flex items-center space-x-2">
-          <AlertCircle className="w-5 h-5 shrink-0 text-rose-400" />
+        <div className="p-4 bg-rose-500/10 border border-rose-500/30 text-rose-700 text-xs rounded-xl flex items-center space-x-2">
+          <AlertCircle className="w-5 h-5 shrink-0 text-rose-600" />
           <span>{error}</span>
         </div>
       )}
 
       {mediaWarning && !error && (
-        <div className="p-3 bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs rounded-xl flex items-center space-x-2">
-          <Volume2 className="w-4 h-4 shrink-0 text-amber-400" />
+        <div className="p-3 bg-amber-500/10 border border-amber-500/30 text-amber-800 text-xs rounded-xl flex items-center space-x-2">
+          <Volume2 className="w-4 h-4 shrink-0 text-amber-600" />
           <span>{mediaWarning}</span>
         </div>
       )}
 
       {/* Meeting Video Grid Container */}
-      <div className="flex-1 min-h-[360px] bg-slate-950/80 border border-slate-800/80 rounded-2xl p-4 overflow-y-auto">
+      <div className="flex-1 min-h-[360px] bg-slate-950 border border-slate-900 rounded-2xl p-4 overflow-y-auto">
         {loading ? (
           <div className="h-full min-h-[300px] flex flex-col items-center justify-center space-y-3 text-slate-400">
-            <Loader2 className="w-8 h-8 animate-spin text-rose-400" />
+            <Loader2 className="w-8 h-8 animate-spin text-[#FFB7C5]" />
             <p className="text-xs font-medium">Connecting to virtual meeting signaling room...</p>
           </div>
         ) : (
@@ -597,7 +597,7 @@ export default function StudyMeetingRoom({ groupId, groupName, token, currentUse
 
               {(!cameraEnabled || !localStream) && (
                 <div className="flex flex-col items-center justify-center space-y-2 text-slate-500">
-                  <div className="w-14 h-14 rounded-full bg-slate-800 border border-slate-700 font-bold text-lg text-slate-300 flex items-center justify-center">
+                  <div className="w-14 h-14 rounded-full bg-[#2E003E] border border-[#FFB7C5]/30 font-bold text-lg text-white flex items-center justify-center">
                     {currentUser?.name ? currentUser.name[0].toUpperCase() : 'U'}
                   </div>
                   <span className="text-xs font-semibold text-slate-400">Camera Off</span>
@@ -626,9 +626,9 @@ export default function StudyMeetingRoom({ groupId, groupName, token, currentUse
         <button
           onClick={toggleMicrophone}
           disabled={loading || !!error}
-          className={`p-3.5 rounded-2xl shadow-xl border font-semibold transition flex items-center space-x-2 text-xs ${
+          className={`p-3.5 rounded-2xl shadow-md border font-semibold transition flex items-center space-x-2 text-xs ${
             micEnabled
-              ? 'bg-slate-800 hover:bg-slate-700 border-slate-700 text-white'
+              ? 'bg-[#2E003E] hover:opacity-90 border-[#FFB7C5]/30 text-white'
               : 'bg-rose-600 hover:bg-rose-500 border-rose-500 text-white'
           }`}
           title={micEnabled ? "Mute Microphone" : "Unmute Microphone"}
@@ -641,9 +641,9 @@ export default function StudyMeetingRoom({ groupId, groupName, token, currentUse
         <button
           onClick={toggleCamera}
           disabled={loading || !!error}
-          className={`p-3.5 rounded-2xl shadow-xl border font-semibold transition flex items-center space-x-2 text-xs ${
+          className={`p-3.5 rounded-2xl shadow-md border font-semibold transition flex items-center space-x-2 text-xs ${
             cameraEnabled
-              ? 'bg-slate-800 hover:bg-slate-700 border-slate-700 text-white'
+              ? 'bg-[#2E003E] hover:opacity-90 border-[#FFB7C5]/30 text-white'
               : 'bg-rose-600 hover:bg-rose-500 border-rose-500 text-white'
           }`}
           title={cameraEnabled ? "Turn Off Camera" : "Turn On Camera"}
@@ -655,7 +655,7 @@ export default function StudyMeetingRoom({ groupId, groupName, token, currentUse
         {/* Leave Button */}
         <button
           onClick={leaveMeeting}
-          className="p-3.5 bg-rose-600 hover:bg-rose-500 text-white font-semibold rounded-2xl shadow-xl border border-rose-500 transition flex items-center space-x-2 text-xs"
+          className="p-3.5 bg-rose-600 hover:bg-rose-500 text-white font-semibold rounded-2xl shadow-md border border-rose-500 transition flex items-center space-x-2 text-xs"
           title="End or Leave Meeting"
         >
           <PhoneOff className="w-5 h-5" />

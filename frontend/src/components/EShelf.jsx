@@ -379,22 +379,22 @@ export default function EShelf() {
   return (
     <div className="space-y-6">
       {/* Header Banner */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-gradient-to-r from-emerald-900/50 via-slate-900 to-slate-900 border border-emerald-500/30 p-6 rounded-2xl">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-[#2E003E] text-white p-6 rounded-2xl shadow-md">
         <div>
-          <div className="flex items-center space-x-2 text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-1">
-            <BookOpen className="w-3.5 h-3.5" />
+          <div className="flex items-center space-x-2 text-[#FFB7C5] text-xs font-semibold uppercase tracking-wider mb-1">
+            <BookOpen className="w-3.5 h-3.5 text-[#FFB7C5]" />
             <span>Digital Study Repository & AI Tools</span>
           </div>
           <h2 className="text-2xl font-bold text-white">Shared E-Shelf</h2>
-          <p className="text-slate-400 text-sm mt-1">
+          <p className="text-white/80 text-sm mt-1">
             Access study materials, generate AI PDF summaries, take practice quizzes, and revise with flashcards.
           </p>
         </div>
         <button
           onClick={() => setShowUploadModal(true)}
-          className="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold rounded-xl shadow-lg transition flex items-center space-x-2 text-sm shrink-0"
+          className="px-4 py-2.5 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl shadow-md transition flex items-center space-x-2 text-sm shrink-0 border border-[#FFB7C5]/30"
         >
-          <Upload className="w-4 h-4" />
+          <Upload className="w-4 h-4 text-[#FFB7C5]" />
           <span>Upload Resource</span>
         </button>
       </div>
@@ -402,13 +402,13 @@ export default function EShelf() {
       {/* Filter Bar & Search */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         {/* Group Filter Dropdown */}
-        <div className="flex items-center space-x-2 bg-slate-900 p-2 rounded-xl border border-slate-800 text-xs">
-          <Filter className="w-4 h-4 text-slate-400 ml-1" />
-          <span className="text-slate-400 font-medium">Filter Group:</span>
+        <div className="flex items-center space-x-2 bg-white p-2 rounded-xl border border-[#E8DDEB] text-xs shadow-sm">
+          <Filter className="w-4 h-4 text-[#756A78] ml-1" />
+          <span className="text-[#756A78] font-medium">Filter Group:</span>
           <select
             value={selectedGroupId}
             onChange={(e) => setSelectedGroupId(e.target.value)}
-            className="bg-slate-950 text-white border border-slate-800 rounded-lg px-2.5 py-1 focus:outline-none focus:border-emerald-500"
+            className="bg-[#F8F3F9] text-[#241A26] border border-[#E8DDEB] rounded-lg px-2.5 py-1 focus:outline-none focus:border-[#2E003E]"
           >
             <option value="all">All Joined Groups</option>
             {myGroups.map((g) => (
@@ -419,82 +419,153 @@ export default function EShelf() {
 
         {/* Search */}
         <div className="relative max-w-xs w-full">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+          <Search className="w-4 h-4 text-[#756A78] absolute left-3.5 top-3" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search filenames or uploaders..."
-            className="w-full pl-10 pr-4 py-2 bg-slate-900 border border-slate-800 rounded-xl text-white placeholder-slate-500 text-xs focus:outline-none focus:border-emerald-500"
+            className="w-full pl-10 pr-4 py-2 bg-white border border-[#E8DDEB] rounded-xl text-[#241A26] placeholder-[#756A78] text-xs focus:outline-none focus:border-[#2E003E] shadow-sm"
           />
         </div>
       </div>
 
       {/* Upload Resource Modal */}
       {showUploadModal && (
-        <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4">
-            <h3 className="text-lg font-bold text-white">Upload Study Resource</h3>
+        <div className="fixed inset-0 bg-[#2E003E]/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white border border-[#E8DDEB] rounded-2xl max-w-lg w-full p-6 shadow-xl space-y-5 relative">
+            {/* Modal Header */}
+            <div className="flex justify-between items-start border-b border-[#E8DDEB] pb-3">
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 rounded-xl bg-[#F8F3F9] border border-[#E8DDEB] text-[#2E003E] flex items-center justify-center shrink-0">
+                  <Upload className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-[#2E003E] leading-tight">Upload Study Resource</h3>
+                  <p className="text-xs text-[#756A78] mt-0.5">Share notes, slides, and documents with your study group.</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowUploadModal(false)}
+                className="p-1 text-[#756A78] hover:text-[#2E003E] rounded-lg transition"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
 
+            {/* Error & Success Alert Badges */}
             {uploadError && (
-              <div className="p-3 bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs rounded-lg flex items-center space-x-2">
-                <AlertCircle className="w-4 h-4 shrink-0" />
+              <div className="p-3.5 bg-rose-500/10 border border-rose-500/30 text-rose-700 text-xs rounded-xl flex items-center space-x-2">
+                <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
                 <span>{uploadError}</span>
               </div>
             )}
 
             {uploadSuccess && (
-              <div className="p-3 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs rounded-lg flex items-center space-x-2">
-                <CheckCircle className="w-4 h-4 shrink-0" />
+              <div className="p-3.5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 text-xs rounded-xl flex items-center space-x-2">
+                <CheckCircle className="w-4 h-4 shrink-0 text-emerald-600" />
                 <span>{uploadSuccess}</span>
               </div>
             )}
 
             <form onSubmit={handleUploadSubmit} className="space-y-4">
+              {/* Target Study Group Selection */}
               <div>
-                <label className="block text-xs font-semibold text-slate-300 uppercase mb-1">Target Study Group</label>
+                <label className="block text-xs font-semibold text-[#2E003E] uppercase tracking-wider mb-1.5">
+                  Target Study Group
+                </label>
                 {myGroups.length === 0 ? (
-                  <p className="text-xs text-amber-400">You must join at least one study group before uploading files.</p>
+                  <div className="p-3 bg-amber-500/10 border border-amber-500/30 text-amber-800 text-xs rounded-xl">
+                    You must join at least one study group before uploading files.
+                  </div>
                 ) : (
-                  <select
-                    value={uploadGroupId}
-                    onChange={(e) => setUploadGroupId(e.target.value)}
-                    className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white text-sm"
-                  >
-                    {myGroups.map((g) => (
-                      <option key={g.id} value={g.id.toString()}>{g.name}</option>
-                    ))}
-                  </select>
+                  <div className="relative">
+                    <Users className="w-4 h-4 text-[#756A78] absolute left-3.5 top-3" />
+                    <select
+                      value={uploadGroupId}
+                      onChange={(e) => setUploadGroupId(e.target.value)}
+                      className="w-full pl-10 pr-4 py-2.5 bg-[#F8F3F9] border border-[#E8DDEB] rounded-xl text-[#241A26] text-xs font-medium focus:outline-none focus:border-[#2E003E]"
+                    >
+                      {myGroups.map((g) => (
+                        <option key={g.id} value={g.id.toString()}>{g.name}</option>
+                      ))}
+                    </select>
+                  </div>
                 )}
               </div>
 
+              {/* Styled File Upload Drop Zone & File Selector Widget */}
               <div>
-                <label className="block text-xs font-semibold text-slate-300 uppercase mb-1">
-                  Select File (PDF, PPT, DOC, PNG, JPG - max 15MB)
+                <label className="block text-xs font-semibold text-[#2E003E] uppercase tracking-wider mb-1.5">
+                  Document File
                 </label>
-                <input
-                  type="file"
-                  accept=".pdf,.ppt,.pptx,.doc,.docx,.png,.jpg,.jpeg,.webp,.gif"
-                  onChange={(e) => setSelectedFile(e.target.files[0] || null)}
-                  required
-                  className="w-full text-xs text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-600 file:text-white hover:file:bg-emerald-500 cursor-pointer bg-slate-950 p-2 border border-slate-800 rounded-xl"
-                />
+                <div className="relative border-2 border-dashed border-[#E8DDEB] hover:border-[#FFB7C5] bg-[#F8F3F9] rounded-2xl p-5 text-center transition group">
+                  <input
+                    type="file"
+                    accept=".pdf,.ppt,.pptx,.doc,.docx,.png,.jpg,.jpeg,.webp,.gif"
+                    onChange={(e) => setSelectedFile(e.target.files[0] || null)}
+                    required
+                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                  />
+                  <div className="space-y-2 pointer-events-none">
+                    <div className="w-12 h-12 rounded-2xl bg-white border border-[#E8DDEB] text-[#2E003E] flex items-center justify-center mx-auto shadow-sm group-hover:scale-105 transition">
+                      <Upload className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold text-[#2E003E]">
+                        {selectedFile ? 'Change Selected File' : 'Click or Drag to Select File'}
+                      </p>
+                      <p className="text-[11px] text-[#756A78] mt-0.5">
+                        PDF, PPT, DOC, PNG, JPG (max 15MB)
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Selected File Details Box */}
+                {selectedFile && (
+                  <div className="mt-3 p-3 bg-white border border-[#E8DDEB] rounded-xl flex items-center justify-between shadow-sm">
+                    <div className="flex items-center space-x-2.5 truncate">
+                      <FileText className="w-4 h-4 text-[#2E003E] shrink-0" />
+                      <div className="truncate">
+                        <p className="text-xs font-semibold text-[#241A26] truncate">{selectedFile.name}</p>
+                        <p className="text-[10px] text-[#756A78] font-mono">
+                          {(selectedFile.size / (1024 * 1024)).toFixed(2)} MB
+                        </p>
+                      </div>
+                    </div>
+                    <span className="text-[11px] font-semibold text-emerald-700 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/30 shrink-0">
+                      Ready
+                    </span>
+                  </div>
+                )}
               </div>
 
-              <div className="flex justify-end space-x-3 pt-2">
+              {/* Action Buttons */}
+              <div className="flex justify-end space-x-3 pt-3 border-t border-[#E8DDEB]">
                 <button
                   type="button"
                   onClick={() => setShowUploadModal(false)}
-                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold"
+                  className="px-4 py-2.5 bg-[#F8F3F9] hover:bg-[#E8DDEB] text-[#756A78] border border-[#E8DDEB] rounded-xl text-xs font-semibold transition"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={uploading || myGroups.length === 0}
-                  className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-semibold shadow-lg disabled:opacity-50"
+                  className="px-5 py-2.5 bg-[#2E003E] hover:opacity-90 text-white rounded-xl text-xs font-bold shadow-md transition flex items-center space-x-2 border border-[#FFB7C5]/30 disabled:opacity-50"
                 >
-                  {uploading ? 'Uploading...' : 'Upload File'}
+                  {uploading ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin text-[#FFB7C5]" />
+                      <span>Uploading...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Upload className="w-4 h-4 text-[#FFB7C5]" />
+                      <span>Upload File</span>
+                    </>
+                  )}
                 </button>
               </div>
             </form>
@@ -504,32 +575,32 @@ export default function EShelf() {
 
       {/* AI Summary View Modal */}
       {summaryModalData && (
-        <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-2xl w-full p-6 shadow-2xl space-y-4 max-h-[85vh] flex flex-col relative">
-            <div className="flex justify-between items-start border-b border-slate-800 pb-3">
+        <div className="fixed inset-0 bg-[#2E003E]/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white border border-[#E8DDEB] rounded-2xl max-w-2xl w-full p-6 shadow-xl space-y-4 max-h-[85vh] flex flex-col relative">
+            <div className="flex justify-between items-start border-b border-[#E8DDEB] pb-3">
               <div>
-                <div className="flex items-center space-x-2 text-indigo-400 text-xs font-bold uppercase tracking-wider mb-1">
-                  <Sparkles className="w-3.5 h-3.5" />
+                <div className="flex items-center space-x-2 text-[#2E003E] text-xs font-bold uppercase tracking-wider mb-1">
+                  <Sparkles className="w-3.5 h-3.5 text-[#FFB7C5]" />
                   <span>Gemini AI Academic Summary</span>
                 </div>
-                <h3 className="text-xl font-bold text-white leading-snug">{summaryModalData.filename}</h3>
-                <p className="text-xs text-slate-400 mt-0.5">
+                <h3 className="text-xl font-bold text-[#2E003E] leading-snug">{summaryModalData.filename}</h3>
+                <p className="text-xs text-[#756A78] mt-0.5">
                   Processed {summaryModalData.total_pages} pages ({summaryModalData.extracted_chars} characters)
                 </p>
               </div>
-              <button onClick={() => setSummaryModalData(null)} className="p-1 text-slate-400 hover:text-white rounded-lg transition">
+              <button onClick={() => setSummaryModalData(null)} className="p-1 text-[#756A78] hover:text-[#2E003E] rounded-lg transition">
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <div className="overflow-y-auto flex-1 p-4 bg-slate-950/70 border border-slate-800 rounded-xl">
-              <pre className="text-xs sm:text-sm text-slate-200 font-sans leading-relaxed whitespace-pre-wrap">
+            <div className="overflow-y-auto flex-1 p-4 bg-[#F8F3F9] border border-[#E8DDEB] rounded-xl">
+              <pre className="text-xs sm:text-sm text-[#241A26] font-sans leading-relaxed whitespace-pre-wrap">
                 {summaryModalData.summary}
               </pre>
             </div>
 
             <div className="flex justify-end pt-2">
-              <button onClick={() => setSummaryModalData(null)} className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold transition">
+              <button onClick={() => setSummaryModalData(null)} className="px-4 py-2 bg-[#2E003E] hover:opacity-90 text-white rounded-xl text-xs font-semibold transition shadow-md">
                 Close Summary
               </button>
             </div>
@@ -539,32 +610,32 @@ export default function EShelf() {
 
       {/* INTERACTIVE AI FLASHCARDS STUDY MODAL */}
       {activeFlashcardSet && (
-        <div className="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-2xl w-full p-6 shadow-2xl space-y-5 flex flex-col relative">
+        <div className="fixed inset-0 bg-[#2E003E]/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
+          <div className="bg-white border border-[#E8DDEB] rounded-2xl max-w-2xl w-full p-6 shadow-xl space-y-5 flex flex-col relative">
 
             {/* Header */}
-            <div className="flex justify-between items-start border-b border-slate-800 pb-3">
+            <div className="flex justify-between items-start border-b border-[#E8DDEB] pb-3">
               <div>
-                <div className="flex items-center space-x-2 text-purple-400 text-xs font-bold uppercase tracking-wider mb-1">
-                  <Layers className="w-3.5 h-3.5" />
+                <div className="flex items-center space-x-2 text-[#2E003E] text-xs font-bold uppercase tracking-wider mb-1">
+                  <Layers className="w-3.5 h-3.5 text-[#FFB7C5]" />
                   <span>Gemini AI Study Deck</span>
                 </div>
-                <h3 className="text-xl font-bold text-white leading-snug">{activeFlashcardSet.title}</h3>
+                <h3 className="text-xl font-bold text-[#2E003E] leading-snug">{activeFlashcardSet.title}</h3>
               </div>
-              <button onClick={handleCloseFlashcards} className="p-1 text-slate-400 hover:text-white rounded-lg transition">
+              <button onClick={handleCloseFlashcards} className="p-1 text-[#756A78] hover:text-[#2E003E] rounded-lg transition">
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             {/* Progress Bar & Indicators */}
             <div className="space-y-2">
-              <div className="flex justify-between items-center text-xs text-slate-400 font-mono font-semibold">
+              <div className="flex justify-between items-center text-xs text-[#756A78] font-mono font-semibold">
                 <span>Card {currentCardIdx + 1} of {activeFlashcardSet.cards.length}</span>
                 <span>{Math.round(((currentCardIdx + 1) / activeFlashcardSet.cards.length) * 100)}% Reviewed</span>
               </div>
-              <div className="w-full h-2 bg-slate-950 rounded-full overflow-hidden border border-slate-800">
+              <div className="w-full h-2 bg-[#F8F3F9] rounded-full overflow-hidden border border-[#E8DDEB]">
                 <div
-                  className="h-full bg-gradient-to-r from-purple-500 to-indigo-500 transition-all duration-300 rounded-full"
+                  className="h-full bg-gradient-to-r from-[#2E003E] to-[#FFB7C5] transition-all duration-300 rounded-full"
                   style={{ width: `${((currentCardIdx + 1) / activeFlashcardSet.cards.length) * 100}%` }}
                 ></div>
               </div>
@@ -574,38 +645,38 @@ export default function EShelf() {
             {activeFlashcardSet.cards[currentCardIdx] && (
               <div
                 onClick={handleFlipCard}
-                className="w-full min-h-[240px] p-6 bg-slate-950/90 border border-slate-800 hover:border-purple-500/50 rounded-2xl shadow-xl flex flex-col justify-between cursor-pointer transition transform hover:scale-[1.01]"
+                className="w-full min-h-[240px] p-6 bg-[#F8F3F9] border border-[#E8DDEB] hover:border-[#FFB7C5] rounded-2xl shadow-sm flex flex-col justify-between cursor-pointer transition transform hover:scale-[1.01]"
               >
                 <div className="flex justify-between items-center">
-                  <span className="px-2.5 py-1 bg-purple-500/10 text-purple-300 border border-purple-500/30 rounded-md text-[11px] font-mono font-semibold uppercase">
+                  <span className="px-2.5 py-1 bg-[#2E003E] text-white rounded-md text-[11px] font-mono font-semibold uppercase">
                     {activeFlashcardSet.cards[currentCardIdx].topic || 'Concept'}
                   </span>
-                  <span className="text-[11px] text-slate-400 font-mono flex items-center space-x-1">
-                    <RotateCw className="w-3 h-3 text-purple-400" />
+                  <span className="text-[11px] text-[#756A78] font-mono flex items-center space-x-1">
+                    <RotateCw className="w-3 h-3 text-[#2E003E]" />
                     <span>{isFlipped ? 'Answer (Click to Flip Question)' : 'Question (Click to Flip Answer)'}</span>
                   </span>
                 </div>
 
                 <div className="py-6 text-center my-auto">
                   {isFlipped ? (
-                    <p className="text-base sm:text-lg font-semibold text-emerald-300 leading-relaxed font-sans">
+                    <p className="text-base sm:text-lg font-semibold text-[#2E003E] leading-relaxed font-sans">
                       {activeFlashcardSet.cards[currentCardIdx].back}
                     </p>
                   ) : (
-                    <h4 className="text-lg sm:text-xl font-bold text-white leading-relaxed">
+                    <h4 className="text-lg sm:text-xl font-bold text-[#241A26] leading-relaxed">
                       {activeFlashcardSet.cards[currentCardIdx].front}
                     </h4>
                   )}
                 </div>
 
-                <div className="text-center text-[11px] text-slate-500 font-mono">
+                <div className="text-center text-[11px] text-[#756A78] font-mono">
                   {isFlipped ? 'Showing Back Side' : 'Showing Front Side'}
                 </div>
               </div>
             )}
 
             {/* Action Bar: Self-Assessment & Card Navigation */}
-            <div className="space-y-4 pt-2 border-t border-slate-800">
+            <div className="space-y-4 pt-2 border-t border-[#E8DDEB]">
               {/* Optional Self Assessment Buttons */}
               <div className="flex justify-center items-center space-x-3">
                 {activeFlashcardSet.cards[currentCardIdx] && (
@@ -614,8 +685,8 @@ export default function EShelf() {
                       onClick={() => handleToggleKnown(activeFlashcardSet.cards[currentCardIdx].id, false)}
                       className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition flex items-center space-x-1.5 border ${
                         knownCards[activeFlashcardSet.cards[currentCardIdx].id] === false
-                          ? 'bg-rose-500/20 border-rose-500/40 text-rose-300'
-                          : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200'
+                          ? 'bg-rose-500/20 border-rose-500/40 text-rose-700'
+                          : 'bg-[#F8F3F9] border-[#E8DDEB] text-[#756A78] hover:text-[#241A26]'
                       }`}
                     >
                       <RotateCcw className="w-3.5 h-3.5" />
@@ -625,8 +696,8 @@ export default function EShelf() {
                       onClick={() => handleToggleKnown(activeFlashcardSet.cards[currentCardIdx].id, true)}
                       className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition flex items-center space-x-1.5 border ${
                         knownCards[activeFlashcardSet.cards[currentCardIdx].id] === true
-                          ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-300'
-                          : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200'
+                          ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-700'
+                          : 'bg-[#F8F3F9] border-[#E8DDEB] text-[#756A78] hover:text-[#241A26]'
                       }`}
                     >
                       <ThumbsUp className="w-3.5 h-3.5" />
@@ -641,7 +712,7 @@ export default function EShelf() {
                 <button
                   onClick={handlePrevCard}
                   disabled={currentCardIdx === 0}
-                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 disabled:opacity-40 text-slate-300 rounded-xl text-xs font-semibold transition flex items-center space-x-1"
+                  className="px-4 py-2 bg-[#F8F3F9] hover:bg-[#E8DDEB] border border-[#E8DDEB] disabled:opacity-40 text-[#241A26] rounded-xl text-xs font-semibold transition flex items-center space-x-1"
                 >
                   <ChevronLeft className="w-4 h-4" />
                   <span>Previous</span>
@@ -650,15 +721,15 @@ export default function EShelf() {
                 <div className="flex items-center space-x-2">
                   <button
                     onClick={handleFlipCard}
-                    className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs font-semibold transition flex items-center space-x-1.5 shadow-md"
+                    className="px-4 py-2 bg-[#2E003E] hover:opacity-90 text-white rounded-xl text-xs font-semibold transition flex items-center space-x-1.5 shadow-md"
                   >
-                    <RotateCw className="w-4 h-4" />
+                    <RotateCw className="w-4 h-4 text-[#FFB7C5]" />
                     <span>Flip Card</span>
                   </button>
 
                   <button
                     onClick={() => { setCurrentCardIdx(0); setIsFlipped(false); }}
-                    className="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-200 rounded-xl transition"
+                    className="px-3 py-2 bg-[#F8F3F9] hover:bg-[#E8DDEB] text-[#756A78] border border-[#E8DDEB] rounded-xl transition"
                     title="Restart Deck"
                   >
                     <RefreshCw className="w-4 h-4" />
@@ -668,7 +739,7 @@ export default function EShelf() {
                 <button
                   onClick={handleNextCard}
                   disabled={currentCardIdx === activeFlashcardSet.cards.length - 1}
-                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 disabled:opacity-40 text-slate-300 rounded-xl text-xs font-semibold transition flex items-center space-x-1"
+                  className="px-4 py-2 bg-[#F8F3F9] hover:bg-[#E8DDEB] border border-[#E8DDEB] disabled:opacity-40 text-[#241A26] rounded-xl text-xs font-semibold transition flex items-center space-x-1"
                 >
                   <span>Next</span>
                   <ChevronRight className="w-4 h-4" />
@@ -681,19 +752,19 @@ export default function EShelf() {
 
       {/* INTERACTIVE AI QUIZ MODAL */}
       {activeQuiz && (
-        <div className="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-3xl w-full p-6 shadow-2xl space-y-5 max-h-[90vh] flex flex-col relative">
+        <div className="fixed inset-0 bg-[#2E003E]/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
+          <div className="bg-white border border-[#E8DDEB] rounded-2xl max-w-3xl w-full p-6 shadow-xl space-y-5 max-h-[90vh] flex flex-col relative">
 
             {/* Modal Header */}
-            <div className="flex justify-between items-start border-b border-slate-800 pb-3">
+            <div className="flex justify-between items-start border-b border-[#E8DDEB] pb-3">
               <div>
-                <div className="flex items-center space-x-2 text-amber-400 text-xs font-bold uppercase tracking-wider mb-1">
-                  <HelpCircle className="w-3.5 h-3.5" />
+                <div className="flex items-center space-x-2 text-[#2E003E] text-xs font-bold uppercase tracking-wider mb-1">
+                  <HelpCircle className="w-3.5 h-3.5 text-[#FFB7C5]" />
                   <span>Gemini AI Practice Quiz</span>
                 </div>
-                <h3 className="text-xl font-bold text-white leading-snug">{activeQuiz.title}</h3>
+                <h3 className="text-xl font-bold text-[#2E003E] leading-snug">{activeQuiz.title}</h3>
               </div>
-              <button onClick={handleCloseQuiz} className="p-1 text-slate-400 hover:text-white rounded-lg transition">
+              <button onClick={handleCloseQuiz} className="p-1 text-[#756A78] hover:text-[#2E003E] rounded-lg transition">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -702,44 +773,44 @@ export default function EShelf() {
             {quizResult ? (
               <div className="overflow-y-auto flex-1 space-y-6 pr-2">
                 {/* Score Summary Box */}
-                <div className="p-6 bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 border border-amber-500/40 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+                <div className="p-6 bg-[#2E003E] text-white border border-[#FFB7C5]/30 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left shadow-md">
                   <div>
-                    <div className="flex items-center justify-center sm:justify-start space-x-2 text-amber-400 text-xs font-bold uppercase mb-1">
-                      <Award className="w-4 h-4" />
+                    <div className="flex items-center justify-center sm:justify-start space-x-2 text-[#FFB7C5] text-xs font-bold uppercase mb-1">
+                      <Award className="w-4 h-4 text-[#FFB7C5]" />
                       <span>Quiz Attempt Complete</span>
                     </div>
                     <h4 className="text-2xl font-black text-white">
                       Score: {quizResult.score} / {quizResult.total_questions} ({quizResult.percentage}%)
                     </h4>
-                    <p className="text-xs text-slate-400 mt-1">
+                    <p className="text-xs text-white/80 mt-1">
                       {quizResult.percentage >= 80 ? '🎉 Excellent performance! High-score bonus awarded.' : 'Good effort! Review the academic explanations below.'}
                     </p>
                   </div>
 
                   <div className="flex items-center space-x-3 shrink-0">
-                    <div className="px-4 py-2 bg-amber-500/10 border border-amber-500/30 rounded-xl text-center">
-                      <span className="block text-[10px] text-amber-300 uppercase font-semibold">Points Earned</span>
-                      <span className="text-lg font-black text-amber-400 font-mono">+{quizResult.points_earned} XP</span>
+                    <div className="px-4 py-2 bg-white/10 border border-[#FFB7C5]/30 rounded-xl text-center">
+                      <span className="block text-[10px] text-[#FFB7C5] uppercase font-semibold">Points Earned</span>
+                      <span className="text-lg font-black text-white font-mono">+{quizResult.points_earned} XP</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Detailed Question Review */}
                 <div className="space-y-4">
-                  <h4 className="text-sm font-bold text-slate-200 uppercase tracking-wider">Question Review & Gemini Explanations</h4>
+                  <h4 className="text-sm font-bold text-[#2E003E] uppercase tracking-wider">Question Review & Gemini Explanations</h4>
                   {quizResult.feedback.map((fb, idx) => (
-                    <div key={fb.question_id} className={`p-4 rounded-xl border space-y-3 ${fb.is_correct ? 'bg-emerald-950/20 border-emerald-500/30' : 'bg-rose-950/20 border-rose-500/30'}`}>
+                    <div key={fb.question_id} className={`p-4 rounded-xl border space-y-3 ${fb.is_correct ? 'bg-emerald-500/10 border-emerald-500/30' : 'bg-rose-500/10 border-rose-500/30'}`}>
                       <div className="flex items-start justify-between gap-2">
-                        <h5 className="font-semibold text-sm text-white leading-snug">
+                        <h5 className="font-semibold text-sm text-[#241A26] leading-snug">
                           {idx + 1}. {fb.question_text}
                         </h5>
                         {fb.is_correct ? (
-                          <span className="px-2 py-0.5 bg-emerald-500/20 text-emerald-400 text-xs font-bold rounded flex items-center space-x-1 shrink-0">
+                          <span className="px-2 py-0.5 bg-emerald-500/20 text-emerald-700 text-xs font-bold rounded flex items-center space-x-1 shrink-0">
                             <CheckCircle2 className="w-3.5 h-3.5" />
                             <span>Correct</span>
                           </span>
                         ) : (
-                          <span className="px-2 py-0.5 bg-rose-500/20 text-rose-400 text-xs font-bold rounded flex items-center space-x-1 shrink-0">
+                          <span className="px-2 py-0.5 bg-rose-500/20 text-rose-700 text-xs font-bold rounded flex items-center space-x-1 shrink-0">
                             <XCircle className="w-3.5 h-3.5" />
                             <span>Incorrect</span>
                           </span>
@@ -756,15 +827,15 @@ export default function EShelf() {
                               key={optIdx}
                               className={`p-2.5 rounded-lg border font-medium flex items-center justify-between ${
                                 isCorrectOpt
-                                  ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-200 font-bold'
+                                  ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-800 font-bold'
                                   : isSelectedOpt
-                                  ? 'bg-rose-500/20 border-rose-500/40 text-rose-200'
-                                  : 'bg-slate-950/60 border-slate-800 text-slate-400'
+                                  ? 'bg-rose-500/20 border-rose-500/40 text-rose-800'
+                                  : 'bg-[#F8F3F9] border-[#E8DDEB] text-[#756A78]'
                               }`}
                             >
                               <span>{String.fromCharCode(65 + optIdx)}. {opt}</span>
-                              {isCorrectOpt && <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />}
-                              {isSelectedOpt && !isCorrectOpt && <XCircle className="w-3.5 h-3.5 text-rose-400" />}
+                              {isCorrectOpt && <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />}
+                              {isSelectedOpt && !isCorrectOpt && <XCircle className="w-3.5 h-3.5 text-rose-600" />}
                             </div>
                           );
                         })}
@@ -772,7 +843,7 @@ export default function EShelf() {
 
                       {/* Academic Explanation */}
                       {fb.explanation && (
-                        <div className="p-3 bg-indigo-950/40 border border-indigo-500/30 rounded-lg text-xs text-indigo-200 leading-relaxed font-sans">
+                        <div className="p-3 bg-[#F8F3F9] border border-[#E8DDEB] rounded-lg text-xs text-[#2E003E] leading-relaxed font-sans font-medium">
                           <strong>💡 Gemini Explanation:</strong> {fb.explanation}
                         </div>
                       )}
@@ -781,7 +852,7 @@ export default function EShelf() {
                 </div>
 
                 <div className="flex justify-end pt-2">
-                  <button onClick={handleCloseQuiz} className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl text-xs shadow-lg transition">
+                  <button onClick={handleCloseQuiz} className="px-5 py-2.5 bg-[#2E003E] hover:opacity-90 text-white font-semibold rounded-xl text-xs shadow-md transition border border-[#FFB7C5]/30">
                     Back to E-Shelf
                   </button>
                 </div>
@@ -791,13 +862,13 @@ export default function EShelf() {
               <div className="flex-1 flex flex-col justify-between overflow-y-auto space-y-6 pr-2">
                 {/* Progress Bar & Indicators */}
                 <div className="space-y-2">
-                  <div className="flex justify-between items-center text-xs text-slate-400 font-mono font-semibold">
+                  <div className="flex justify-between items-center text-xs text-[#756A78] font-mono font-semibold">
                     <span>Question {currentQuestionIdx + 1} of {activeQuiz.questions.length}</span>
                     <span>{Math.round(((currentQuestionIdx + 1) / activeQuiz.questions.length) * 100)}% Complete</span>
                   </div>
-                  <div className="w-full h-2 bg-slate-950 rounded-full overflow-hidden border border-slate-800">
+                  <div className="w-full h-2 bg-[#F8F3F9] rounded-full overflow-hidden border border-[#E8DDEB]">
                     <div
-                      className="h-full bg-gradient-to-r from-amber-500 to-indigo-500 transition-all duration-300 rounded-full"
+                      className="h-full bg-gradient-to-r from-[#2E003E] to-[#FFB7C5] transition-all duration-300 rounded-full"
                       style={{ width: `${((currentQuestionIdx + 1) / activeQuiz.questions.length) * 100}%` }}
                     ></div>
                   </div>
@@ -805,8 +876,8 @@ export default function EShelf() {
 
                 {/* Current Question */}
                 {activeQuiz.questions[currentQuestionIdx] && (
-                  <div className="space-y-4 bg-slate-950/70 border border-slate-800/80 p-5 rounded-2xl">
-                    <h4 className="text-base font-bold text-white leading-relaxed">
+                  <div className="space-y-4 bg-[#F8F3F9] border border-[#E8DDEB] p-5 rounded-2xl">
+                    <h4 className="text-base font-bold text-[#241A26] leading-relaxed">
                       {currentQuestionIdx + 1}. {activeQuiz.questions[currentQuestionIdx].question_text}
                     </h4>
 
@@ -822,18 +893,18 @@ export default function EShelf() {
                             onClick={() => handleSelectOption(qId, optIdx)}
                             className={`p-3.5 rounded-xl border text-xs sm:text-sm font-medium transition cursor-pointer flex items-center justify-between ${
                               isSelected
-                                ? 'bg-indigo-600/20 border-indigo-500 text-indigo-200 shadow-md'
-                                : 'bg-slate-900 border-slate-800 text-slate-300 hover:bg-slate-800/60'
+                                ? 'bg-[#2E003E] border-[#2E003E] text-white shadow-md'
+                                : 'bg-white border-[#E8DDEB] text-[#241A26] hover:bg-[#F8F3F9]'
                             }`}
                           >
                             <div className="flex items-center space-x-3">
-                              <span className={`w-6 h-6 rounded-lg font-mono font-bold text-xs flex items-center justify-center ${isSelected ? 'bg-indigo-600 text-white' : 'bg-slate-800 text-slate-400'}`}>
+                              <span className={`w-6 h-6 rounded-lg font-mono font-bold text-xs flex items-center justify-center ${isSelected ? 'bg-[#FFB7C5] text-[#2E003E]' : 'bg-[#F8F3F9] text-[#756A78]'}`}>
                                 {String.fromCharCode(65 + optIdx)}
                               </span>
                               <span>{opt}</span>
                             </div>
-                            <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${isSelected ? 'border-indigo-400 bg-indigo-600' : 'border-slate-700'}`}>
-                              {isSelected && <div className="w-1.5 h-1.5 rounded-full bg-white"></div>}
+                            <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${isSelected ? 'border-[#FFB7C5] bg-[#FFB7C5]' : 'border-[#E8DDEB]'}`}>
+                              {isSelected && <div className="w-1.5 h-1.5 rounded-full bg-[#2E003E]"></div>}
                             </div>
                           </div>
                         );
@@ -843,11 +914,11 @@ export default function EShelf() {
                 )}
 
                 {/* Question Navigation Controls */}
-                <div className="flex justify-between items-center pt-3 border-t border-slate-800">
+                <div className="flex justify-between items-center pt-3 border-t border-[#E8DDEB]">
                   <button
                     onClick={() => setCurrentQuestionIdx(prev => Math.max(prev - 1, 0))}
                     disabled={currentQuestionIdx === 0}
-                    className="px-4 py-2 bg-slate-800 hover:bg-slate-700 disabled:opacity-40 text-slate-300 rounded-xl text-xs font-semibold transition flex items-center space-x-1"
+                    className="px-4 py-2 bg-[#F8F3F9] hover:bg-[#E8DDEB] disabled:opacity-40 text-[#241A26] border border-[#E8DDEB] rounded-xl text-xs font-semibold transition flex items-center space-x-1"
                   >
                     <ChevronLeft className="w-4 h-4" />
                     <span>Previous</span>
@@ -856,25 +927,25 @@ export default function EShelf() {
                   {currentQuestionIdx < activeQuiz.questions.length - 1 ? (
                     <button
                       onClick={() => setCurrentQuestionIdx(prev => Math.min(prev + 1, activeQuiz.questions.length - 1))}
-                      className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold transition flex items-center space-x-1 shadow-lg"
+                      className="px-4 py-2 bg-[#2E003E] hover:opacity-90 text-white rounded-xl text-xs font-semibold transition flex items-center space-x-1 shadow-md border border-[#FFB7C5]/30"
                     >
                       <span>Next</span>
-                      <ChevronRight className="w-4 h-4" />
+                      <ChevronRight className="w-4 h-4 text-[#FFB7C5]" />
                     </button>
                   ) : (
                     <button
                       onClick={handleSubmitQuiz}
                       disabled={submittingQuiz}
-                      className="px-5 py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold rounded-xl text-xs shadow-lg transition flex items-center space-x-1.5 disabled:opacity-50"
+                      className="px-5 py-2.5 bg-[#2E003E] hover:opacity-90 text-white font-bold rounded-xl text-xs shadow-md transition flex items-center space-x-1.5 disabled:opacity-50 border border-[#FFB7C5]/30"
                     >
                       {submittingQuiz ? (
                         <>
-                          <Loader2 className="w-4 h-4 animate-spin" />
+                          <Loader2 className="w-4 h-4 animate-spin text-[#FFB7C5]" />
                           <span>Submitting...</span>
                         </>
                       ) : (
                         <>
-                          <CheckCircle2 className="w-4 h-4" />
+                          <CheckCircle2 className="w-4 h-4 text-[#FFB7C5]" />
                           <span>Submit Quiz</span>
                         </>
                       )}
@@ -889,115 +960,111 @@ export default function EShelf() {
 
       {/* Resources Table / List */}
       {loading ? (
-        <div className="py-12 text-center text-slate-400 text-sm">Loading E-Shelf resources...</div>
+        <div className="py-12 text-center text-[#756A78] text-sm">Loading E-Shelf resources...</div>
       ) : filteredResources.length === 0 ? (
-        <div className="p-12 bg-slate-900/60 border border-slate-800 rounded-2xl text-center text-slate-400 text-sm">
+        <div className="p-12 bg-white border border-[#E8DDEB] rounded-2xl text-center text-[#756A78] text-sm shadow-sm">
           No resources found in E-Shelf. Click "Upload Resource" to share course materials!
         </div>
       ) : (
-        <div className="bg-slate-900/90 border border-slate-800 rounded-2xl shadow-xl overflow-hidden">
+        <div className="bg-white border border-[#E8DDEB] rounded-2xl shadow-sm overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm text-slate-300">
-              <thead className="bg-slate-950/80 text-xs uppercase text-slate-400 border-b border-slate-800">
+            <table className="w-full text-left text-sm text-[#241A26]">
+              <thead className="bg-[#F8F3F9] text-xs uppercase text-[#2E003E] font-bold border-b border-[#E8DDEB]">
                 <tr>
-                  <th className="px-6 py-4 font-semibold">Document</th>
-                  <th className="px-6 py-4 font-semibold">Format</th>
-                  <th className="px-6 py-4 font-semibold">Size</th>
-                  <th className="px-6 py-4 font-semibold">Uploaded By</th>
-                  <th className="px-6 py-4 font-semibold">Date</th>
-                  <th className="px-6 py-4 font-semibold text-right">Actions</th>
+                  <th className="px-6 py-4">Document</th>
+                  <th className="px-6 py-4">Format</th>
+                  <th className="px-6 py-4">Size</th>
+                  <th className="px-6 py-4">Uploaded By</th>
+                  <th className="px-6 py-4">Date</th>
+                  <th className="px-6 py-4 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/80">
+              <tbody className="divide-y divide-[#E8DDEB]">
                 {filteredResources.map((res) => (
-                  <tr key={res.id} className="hover:bg-slate-800/40 transition">
-                    <td className="px-6 py-4 font-medium text-white flex items-center space-x-3 truncate">
-                      <div className="p-2 rounded-lg bg-slate-950 border border-slate-800">
+                  <tr key={res.id} className="hover:bg-[#F8F3F9]/60 transition">
+                    <td className="px-6 py-4 font-semibold text-[#241A26] flex items-center space-x-3 truncate">
+                      <div className="p-2 rounded-lg bg-[#F8F3F9] border border-[#E8DDEB] text-[#2E003E]">
                         {getFileIcon(res.file_type)}
                       </div>
                       <span className="truncate max-w-xs">{res.filename}</span>
                     </td>
                     <td className="px-6 py-4">
-                      <span className="px-2.5 py-1 bg-slate-950 border border-slate-800 rounded-md text-xs font-mono uppercase text-emerald-400">
+                      <span className="px-2.5 py-1 bg-[#F8F3F9] border border-[#E8DDEB] rounded-md text-xs font-mono uppercase text-[#2E003E] font-bold">
                         {res.file_type}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-xs font-mono text-slate-400">
+                    <td className="px-6 py-4 text-xs font-mono text-[#756A78]">
                       {formatFileSize(res.file_size)}
                     </td>
-                    <td className="px-6 py-4 text-xs text-slate-300">
+                    <td className="px-6 py-4 text-xs text-[#241A26] font-medium">
                       {res.uploader_name}
                     </td>
-                    <td className="px-6 py-4 text-xs font-mono text-slate-400">
+                    <td className="px-6 py-4 text-xs font-mono text-[#756A78]">
                       {new Date(res.created_at).toLocaleDateString()}
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end space-x-2">
                         {/* AI Tools for Study Resources */}
-                        {true && (
-                          <>
-                            <button
-                              onClick={() => handleGenerateFlashcards(res.id, res.filename)}
-                              disabled={fcGeneratingId === res.id}
-                              className="px-3 py-1.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white rounded-lg text-xs font-semibold transition flex items-center space-x-1.5 disabled:opacity-50"
-                            >
-                              {fcGeneratingId === res.id ? (
-                                <>
-                                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                                  <span>Flashcards...</span>
-                                </>
-                              ) : (
-                                <>
-                                  <Layers className="w-3.5 h-3.5" />
-                                  <span>Flashcards</span>
-                                </>
-                              )}
-                            </button>
+                        <button
+                          onClick={() => handleGenerateFlashcards(res.id, res.filename)}
+                          disabled={fcGeneratingId === res.id}
+                          className="px-3 py-1.5 bg-[#2E003E] hover:opacity-90 text-white rounded-xl text-xs font-semibold transition flex items-center space-x-1.5 shadow-sm border border-[#FFB7C5]/30 disabled:opacity-50"
+                        >
+                          {fcGeneratingId === res.id ? (
+                            <>
+                              <Loader2 className="w-3.5 h-3.5 animate-spin text-[#FFB7C5]" />
+                              <span>Flashcards...</span>
+                            </>
+                          ) : (
+                            <>
+                              <Layers className="w-3.5 h-3.5 text-[#FFB7C5]" />
+                              <span>Flashcards</span>
+                            </>
+                          )}
+                        </button>
 
-                            <button
-                              onClick={() => handleGenerateQuiz(res.id, res.filename)}
-                              disabled={quizGeneratingId === res.id}
-                              className="px-3 py-1.5 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white rounded-lg text-xs font-semibold transition flex items-center space-x-1.5 disabled:opacity-50"
-                            >
-                              {quizGeneratingId === res.id ? (
-                                <>
-                                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                                  <span>Quiz...</span>
-                                </>
-                              ) : (
-                                <>
-                                  <HelpCircle className="w-3.5 h-3.5" />
-                                  <span>Generate Quiz</span>
-                                </>
-                              )}
-                            </button>
+                        <button
+                          onClick={() => handleGenerateQuiz(res.id, res.filename)}
+                          disabled={quizGeneratingId === res.id}
+                          className="px-3 py-1.5 bg-[#2E003E] hover:opacity-90 text-white rounded-xl text-xs font-semibold transition flex items-center space-x-1.5 shadow-sm border border-[#FFB7C5]/30 disabled:opacity-50"
+                        >
+                          {quizGeneratingId === res.id ? (
+                            <>
+                              <Loader2 className="w-3.5 h-3.5 animate-spin text-[#FFB7C5]" />
+                              <span>Quiz...</span>
+                            </>
+                          ) : (
+                            <>
+                              <HelpCircle className="w-3.5 h-3.5 text-[#FFB7C5]" />
+                              <span>Generate Quiz</span>
+                            </>
+                          )}
+                        </button>
 
-                            <button
-                              onClick={() => handleGenerateSummary(res.id, res.filename)}
-                              disabled={summarizingId === res.id}
-                              className="px-3 py-1.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white rounded-lg text-xs font-semibold transition flex items-center space-x-1.5 disabled:opacity-50"
-                            >
-                              {summarizingId === res.id ? (
-                                <>
-                                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                                  <span>Summary...</span>
-                                </>
-                              ) : (
-                                <>
-                                  <Sparkles className="w-3.5 h-3.5" />
-                                  <span>AI Summary</span>
-                                </>
-                              )}
-                            </button>
-                          </>
-                        )}
+                        <button
+                          onClick={() => handleGenerateSummary(res.id, res.filename)}
+                          disabled={summarizingId === res.id}
+                          className="px-3 py-1.5 bg-[#2E003E] hover:opacity-90 text-white rounded-xl text-xs font-semibold transition flex items-center space-x-1.5 shadow-sm border border-[#FFB7C5]/30 disabled:opacity-50"
+                        >
+                          {summarizingId === res.id ? (
+                            <>
+                              <Loader2 className="w-3.5 h-3.5 animate-spin text-[#FFB7C5]" />
+                              <span>Summary...</span>
+                            </>
+                          ) : (
+                            <>
+                              <Sparkles className="w-3.5 h-3.5 text-[#FFB7C5]" />
+                              <span>AI Summary</span>
+                            </>
+                          )}
+                        </button>
 
                         {/* Download Action */}
                         <button
                           onClick={() => handleDownload(res.id, res.filename)}
-                          className="px-3 py-1.5 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 rounded-lg text-xs font-semibold transition flex items-center space-x-1"
+                          className="px-3 py-1.5 bg-[#F8F3F9] hover:bg-[#E8DDEB] text-[#2E003E] border border-[#E8DDEB] rounded-xl text-xs font-bold transition flex items-center space-x-1.5 shadow-sm"
                         >
-                          <Download className="w-3.5 h-3.5" />
+                          <Download className="w-3.5 h-3.5 text-[#2E003E]" />
                           <span>Download</span>
                         </button>
                       </div>

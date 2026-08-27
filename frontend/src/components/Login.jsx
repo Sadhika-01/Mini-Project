@@ -29,21 +29,21 @@ export default function Login({ onSwitchToRegister, onLoginSuccess }) {
   };
 
   return (
-    <div className="max-w-md w-full mx-auto bg-slate-800/90 border border-slate-700 rounded-2xl p-8 shadow-2xl backdrop-blur">
+    <div className="max-w-md w-full mx-auto bg-white border border-[#E8DDEB] rounded-2xl p-8 shadow-xl">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-white mb-2">Welcome Back</h2>
-        <p className="text-sm text-slate-400">Sign in to your learning dashboard</p>
+        <h2 className="text-2xl font-bold text-[#2E003E] mb-2">Welcome Back</h2>
+        <p className="text-sm text-[#756A78]">Sign in to your learning dashboard</p>
       </div>
 
       {error && (
-        <div className="mb-4 p-3 bg-rose-500/10 border border-rose-500/30 rounded-lg text-rose-400 text-sm">
+        <div className="mb-4 p-3 bg-rose-500/10 border border-rose-500/30 rounded-lg text-rose-600 text-sm">
           {error}
         </div>
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
+          <label className="block text-xs font-semibold text-[#2E003E] uppercase tracking-wider mb-1.5">
             Email Address
           </label>
           <input
@@ -52,12 +52,12 @@ export default function Login({ onSwitchToRegister, onLoginSuccess }) {
             onChange={(e) => setEmail(e.target.value)}
             placeholder="student@example.com"
             required
-            className="w-full px-4 py-2.5 rounded-lg bg-slate-900 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 text-sm"
+            className="w-full px-4 py-2.5 rounded-lg bg-[#F8F3F9] border border-[#E8DDEB] text-[#241A26] placeholder-[#756A78] focus:outline-none focus:border-[#2E003E] text-sm"
           />
         </div>
 
         <div>
-          <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
+          <label className="block text-xs font-semibold text-[#2E003E] uppercase tracking-wider mb-1.5">
             Password
           </label>
           <input
@@ -66,24 +66,24 @@ export default function Login({ onSwitchToRegister, onLoginSuccess }) {
             onChange={(e) => setPassword(e.target.value)}
             placeholder="••••••••"
             required
-            className="w-full px-4 py-2.5 rounded-lg bg-slate-900 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 text-sm"
+            className="w-full px-4 py-2.5 rounded-lg bg-[#F8F3F9] border border-[#E8DDEB] text-[#241A26] placeholder-[#756A78] focus:outline-none focus:border-[#2E003E] text-sm"
           />
         </div>
 
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-lg shadow-lg transition duration-150 disabled:opacity-50 text-sm"
+          className="w-full py-2.5 bg-[#2E003E] hover:opacity-90 text-white font-semibold rounded-lg shadow-md transition duration-150 disabled:opacity-50 text-sm"
         >
           {isSubmitting ? 'Signing in...' : 'Sign In'}
         </button>
       </form>
 
-      <div className="mt-6 text-center text-xs text-slate-400">
+      <div className="mt-6 text-center text-xs text-[#756A78]">
         Don't have an account?{' '}
         <button
           onClick={onSwitchToRegister}
-          className="text-indigo-400 hover:underline font-medium"
+          className="text-[#2E003E] hover:underline font-bold"
         >
           Register here
         </button>

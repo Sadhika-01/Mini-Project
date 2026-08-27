@@ -93,24 +93,24 @@ export default function StudentDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col md:flex-row font-sans">
+    <div className="min-h-screen bg-[#F8F3F9] text-[#241A26] flex flex-col md:flex-row font-sans">
       {/* Sidebar Navigation */}
-      <aside className="w-full md:w-64 bg-slate-900 border-r border-slate-800 flex flex-col justify-between shrink-0">
+      <aside className="w-full md:w-64 bg-[#2E003E] border-r border-[#2E003E] flex flex-col justify-between shrink-0 shadow-xl">
         <div>
           {/* Logo Brand Header */}
-          <div className="p-6 border-b border-slate-800 flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-tr from-indigo-600 to-indigo-400 rounded-xl flex items-center justify-center font-bold text-white text-xl shadow-lg shadow-indigo-500/20">
+          <div className="p-6 border-b border-white/10 flex items-center space-x-3">
+            <div className="w-10 h-10 bg-[#FFB7C5] rounded-xl flex items-center justify-center font-black text-[#2E003E] text-xl shadow-md">
               M
             </div>
             <div>
               <h1 className="font-bold text-base text-white tracking-tight leading-tight">Minnie Study</h1>
-              <p className="text-xs text-indigo-400 font-medium">Collaborative Cloud AI</p>
+              <p className="text-xs text-white/80 font-medium">Collaborative Cloud AI</p>
             </div>
           </div>
 
           {/* EXACT 7 Navigation Items */}
           <nav className="p-4 space-y-1.5">
-            <div className="px-3 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+            <div className="px-3 py-2 text-xs font-semibold text-[#FFB7C5] uppercase tracking-wider">
               Navigation Menu
             </div>
             {navItems.map((item) => {
@@ -122,11 +122,11 @@ export default function StudentDashboard() {
                   onClick={() => handleNavClick(item.id, item.label)}
                   className={`w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition ${
                     isActive
-                      ? 'bg-indigo-600/20 border border-indigo-500/40 text-indigo-300 shadow-sm'
-                      : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
+                      ? 'bg-white/15 border border-[#FFB7C5]/40 text-white shadow-sm font-semibold'
+                      : 'text-white/80 hover:text-white hover:bg-white/10'
                   }`}
                 >
-                  <Icon className={`w-4 h-4 ${isActive ? 'text-indigo-400' : 'text-slate-400'}`} />
+                  <Icon className={`w-4 h-4 ${isActive ? 'text-[#FFB7C5]' : 'text-white/70'}`} />
                   <span>{item.label}</span>
                 </button>
               );
@@ -135,20 +135,20 @@ export default function StudentDashboard() {
         </div>
 
         {/* User Footer Profile & Logout */}
-        <div className="p-4 border-t border-slate-800 bg-slate-950/50">
+        <div className="p-4 border-t border-white/10 bg-white/5">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3 truncate">
-              <div className="w-9 h-9 rounded-xl bg-indigo-600/30 border border-indigo-500/40 text-indigo-300 font-bold flex items-center justify-center text-sm shrink-0">
+              <div className="w-9 h-9 rounded-xl bg-[#FFB7C5]/20 border border-[#FFB7C5]/40 text-[#FFB7C5] font-bold flex items-center justify-center text-sm shrink-0">
                 {user?.name?.[0]?.toUpperCase() || 'S'}
               </div>
               <div className="truncate">
                 <p className="text-xs font-bold text-white truncate">{user?.name || 'Student'}</p>
-                <p className="text-[10px] text-slate-400 truncate">{user?.email}</p>
+                <p className="text-[10px] text-white/80 truncate">{user?.email}</p>
               </div>
             </div>
             <button
               onClick={logout}
-              className="p-2 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 rounded-lg transition"
+              className="p-2 text-white/80 hover:text-rose-300 hover:bg-rose-500/20 rounded-lg transition"
               title="Logout"
             >
               <LogOut className="w-4 h-4" />
@@ -158,7 +158,7 @@ export default function StudentDashboard() {
       </aside>
 
       {/* Main Content View Container */}
-      <main className="flex-1 p-6 md:p-8 overflow-y-auto">
+      <main className="flex-1 p-6 md:p-8 overflow-y-auto bg-[#F8F3F9]">
         {activeTab === 'doubt-forum' ? (
           <DoubtForum />
         ) : activeTab === 'groups' ? (
@@ -174,27 +174,27 @@ export default function StudentDashboard() {
         ) : (
           <>
             {/* Top Workspace Header */}
-            <header className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 mb-8 border-b border-slate-800 gap-4">
+            <header className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 mb-8 border-b border-[#E8DDEB] gap-4">
               <div>
-                <div className="flex items-center space-x-2 text-indigo-400 text-xs font-semibold uppercase tracking-wider mb-1">
-                  <Sparkles className="w-3.5 h-3.5" />
+                <div className="flex items-center space-x-2 text-[#2E003E] text-xs font-semibold uppercase tracking-wider mb-1">
+                  <Sparkles className="w-3.5 h-3.5 text-[#FFB7C5]" />
                   <span>Student Workspace</span>
                 </div>
-                <h2 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
+                <h2 className="text-2xl md:text-3xl font-extrabold text-[#2E003E] tracking-tight">
                   Welcome back, {user?.name}! 👋
                 </h2>
               </div>
               <div className="flex items-center space-x-3">
                 <button
                   onClick={() => handleNavClick('groups', 'Study Groups')}
-                  className="px-4 py-2 bg-gradient-to-r from-rose-600 to-indigo-600 hover:from-rose-500 hover:to-indigo-500 text-white font-bold rounded-xl text-xs shadow-lg transition flex items-center space-x-2"
+                  className="px-4 py-2 bg-[#2E003E] hover:opacity-90 text-white font-bold rounded-xl text-xs shadow-md transition flex items-center space-x-2 border border-[#FFB7C5]/30"
                 >
-                  <Video className="w-4 h-4" />
+                  <Video className="w-4 h-4 text-[#FFB7C5]" />
                   <span>🎥 Study Meetings</span>
                 </button>
-                <div className="bg-slate-900 px-3.5 py-1.5 rounded-lg border border-slate-800 text-xs flex items-center space-x-2">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                  <span className="text-slate-300">Session Verified</span>
+                <div className="bg-white px-3.5 py-1.5 rounded-lg border border-[#E8DDEB] text-xs flex items-center space-x-2 shadow-sm">
+                  <span className="w-2 h-2 rounded-full bg-[#2E003E] animate-pulse"></span>
+                  <span className="text-[#2E003E] font-semibold">Session Verified</span>
                 </div>
               </div>
             </header>
@@ -206,21 +206,21 @@ export default function StudentDashboard() {
                 return (
                   <div
                     key={idx}
-                    className={`p-5 rounded-2xl bg-gradient-to-br ${m.color} bg-slate-900/90 border shadow-lg flex flex-col justify-between`}
+                    className="p-5 rounded-2xl bg-white border border-[#E8DDEB] shadow-sm flex flex-col justify-between hover:border-[#FFB7C5] transition"
                   >
                     <div className="flex justify-between items-start mb-3">
-                      <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                      <span className="text-xs font-semibold text-[#756A78] uppercase tracking-wider">
                         {m.title}
                       </span>
-                      <div className="p-2 bg-slate-800/80 rounded-lg">
+                      <div className="p-2 bg-[#F8F3F9] text-[#2E003E] rounded-lg">
                         <Icon className="w-4 h-4" />
                       </div>
                     </div>
                     <div>
-                      <div className="text-2xl font-black text-white tracking-tight mb-1">
+                      <div className="text-2xl font-black text-[#2E003E] tracking-tight mb-1">
                         {m.value}
                       </div>
-                      <div className="text-xs font-medium text-slate-400">
+                      <div className="text-xs font-medium text-[#756A78]">
                         {m.subtext}
                       </div>
                     </div>
@@ -234,15 +234,15 @@ export default function StudentDashboard() {
               {/* Left Column */}
               <div className="lg:col-span-2 space-y-8">
                 {/* Active Study Groups Widget */}
-                <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 shadow-xl">
+                <div className="bg-white border border-[#E8DDEB] rounded-2xl p-6 shadow-sm">
                   <div className="flex justify-between items-center mb-5">
                     <div className="flex items-center space-x-2">
-                      <Users className="w-5 h-5 text-indigo-400" />
-                      <h3 className="text-base font-bold text-white">Your Study Groups</h3>
+                      <Users className="w-5 h-5 text-[#2E003E]" />
+                      <h3 className="text-base font-bold text-[#241A26]">Your Study Groups</h3>
                     </div>
                     <button
                       onClick={() => handleNavClick('groups', 'Study Groups')}
-                      className="text-xs text-indigo-400 hover:text-indigo-300 font-semibold flex items-center"
+                      className="text-xs text-[#2E003E] hover:underline font-semibold flex items-center"
                     >
                       View All <ChevronRight className="w-3.5 h-3.5 ml-0.5" />
                     </button>
@@ -253,15 +253,15 @@ export default function StudentDashboard() {
                       <div
                         key={g.id}
                         onClick={() => handleNavClick('groups', 'Study Groups')}
-                        className="p-4 rounded-xl bg-slate-950/60 border border-slate-800 hover:border-indigo-500/40 transition group cursor-pointer"
+                        className="p-4 rounded-xl bg-[#F8F3F9] border border-[#E8DDEB] hover:border-[#FFB7C5] transition group cursor-pointer"
                       >
-                        <div className="text-xs font-mono text-indigo-400 mb-1">{g.subject}</div>
-                        <h4 className="font-semibold text-sm text-white group-hover:text-indigo-300 transition line-clamp-1 mb-3">
+                        <div className="text-xs font-mono text-[#2E003E] font-semibold mb-1">{g.subject}</div>
+                        <h4 className="font-semibold text-sm text-[#241A26] group-hover:text-[#2E003E] transition line-clamp-1 mb-3">
                           {g.name}
                         </h4>
-                        <div className="flex justify-between items-center text-xs text-slate-400 border-t border-slate-800/80 pt-2.5">
+                        <div className="flex justify-between items-center text-xs text-[#756A78] border-t border-[#E8DDEB] pt-2.5">
                           <span>{g.members} Members</span>
-                          <span className="text-emerald-400">{g.activity}</span>
+                          <span className="text-[#2E003E] font-semibold">{g.activity}</span>
                         </div>
                       </div>
                     ))}
@@ -269,15 +269,15 @@ export default function StudentDashboard() {
                 </div>
 
                 {/* Shared E-Shelf Resources Widget */}
-                <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 shadow-xl">
+                <div className="bg-white border border-[#E8DDEB] rounded-2xl p-6 shadow-sm">
                   <div className="flex justify-between items-center mb-5">
                     <div className="flex items-center space-x-2">
-                      <BookOpen className="w-5 h-5 text-emerald-400" />
-                      <h3 className="text-base font-bold text-white">Recent E-Shelf Resources</h3>
+                      <BookOpen className="w-5 h-5 text-[#2E003E]" />
+                      <h3 className="text-base font-bold text-[#241A26]">Recent E-Shelf Resources</h3>
                     </div>
                     <button
                       onClick={() => handleNavClick('eshelf', 'E-Shelf')}
-                      className="text-xs text-emerald-400 hover:text-emerald-300 font-semibold flex items-center"
+                      className="text-xs text-[#2E003E] hover:underline font-semibold flex items-center"
                     >
                       Browse E-Shelf <ChevronRight className="w-3.5 h-3.5 ml-0.5" />
                     </button>
@@ -287,16 +287,16 @@ export default function StudentDashboard() {
                     {mockResources.map((r) => (
                       <div
                         key={r.id}
-                        className="p-3.5 rounded-xl bg-slate-950/60 border border-slate-800 flex items-center justify-between hover:bg-slate-900 transition"
+                        className="p-3.5 rounded-xl bg-[#F8F3F9] border border-[#E8DDEB] flex items-center justify-between hover:bg-[#E8DDEB]/50 transition"
                       >
                         <div className="flex items-center space-x-3 truncate">
-                          <FileText className="w-4 h-4 text-emerald-400 shrink-0" />
+                          <FileText className="w-4 h-4 text-[#2E003E] shrink-0" />
                           <div className="truncate">
-                            <h4 className="text-xs font-semibold text-white truncate">{r.title}</h4>
-                            <p className="text-[10px] text-slate-400">Uploaded by {r.uploader}</p>
+                            <h4 className="text-xs font-semibold text-[#241A26] truncate">{r.title}</h4>
+                            <p className="text-[10px] text-[#756A78]">Uploaded by {r.uploader}</p>
                           </div>
                         </div>
-                        <span className="px-2 py-1 bg-slate-900 border border-slate-800 rounded text-[10px] font-mono text-slate-400">
+                        <span className="px-2 py-1 bg-white border border-[#E8DDEB] rounded text-[10px] font-mono text-[#756A78]">
                           {r.size}
                         </span>
                       </div>

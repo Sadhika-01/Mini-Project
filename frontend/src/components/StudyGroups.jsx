@@ -390,22 +390,22 @@ export default function StudyGroups() {
 
       {/* Public Share Invite Modal */}
       {invitePreview && (
-        <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-5 text-center">
-            <div className="w-12 h-12 rounded-2xl bg-indigo-600/20 border border-indigo-500/40 text-indigo-400 flex items-center justify-center mx-auto">
+        <div className="fixed inset-0 bg-[#2E003E]/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+          <div className="bg-white border border-[#E8DDEB] rounded-2xl max-w-md w-full p-6 shadow-xl space-y-5 text-center">
+            <div className="w-12 h-12 rounded-2xl bg-[#F8F3F9] border border-[#E8DDEB] text-[#2E003E] flex items-center justify-center mx-auto">
               <Users className="w-6 h-6" />
             </div>
             <div>
-              <span className="text-xs font-semibold text-indigo-400 uppercase tracking-wider block mb-1">
+              <span className="text-xs font-semibold text-[#2E003E] uppercase tracking-wider block mb-1">
                 Group Invitation
               </span>
-              <h3 className="text-xl font-bold text-white leading-tight">{invitePreview.name}</h3>
-              <p className="text-slate-400 text-xs mt-2 leading-relaxed">
+              <h3 className="text-xl font-bold text-[#2E003E] leading-tight">{invitePreview.name}</h3>
+              <p className="text-[#756A78] text-xs mt-2 leading-relaxed">
                 {invitePreview.description || 'Join this study group to collaborate on notes, participate in live chat, and start WebRTC meetings.'}
               </p>
             </div>
 
-            <div className="p-3 bg-slate-950 border border-slate-800/80 rounded-xl flex items-center justify-around text-xs font-mono text-slate-300">
+            <div className="p-3 bg-[#F8F3F9] border border-[#E8DDEB] rounded-xl flex items-center justify-around text-xs font-mono text-[#2E003E]">
               <span>{invitePreview.member_count} Members</span>
               <span>•</span>
               <span>Created by {invitePreview.creator_name}</span>
@@ -418,7 +418,7 @@ export default function StudyGroups() {
                   setInvitePreview(null);
                   window.history.replaceState({}, document.title, window.location.pathname);
                 }}
-                className="flex-1 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-semibold"
+                className="flex-1 py-2.5 bg-[#F8F3F9] hover:bg-[#E8DDEB] text-[#756A78] border border-[#E8DDEB] rounded-xl text-xs font-semibold"
               >
                 Decline
               </button>
@@ -426,9 +426,9 @@ export default function StudyGroups() {
                 type="button"
                 onClick={handleAcceptInvite}
                 disabled={joiningInvite}
-                className="flex-1 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold shadow-lg disabled:opacity-50 flex items-center justify-center space-x-1.5"
+                className="flex-1 py-2.5 bg-[#2E003E] hover:opacity-90 text-white rounded-xl text-xs font-bold shadow-md disabled:opacity-50 flex items-center justify-center space-x-1.5"
               >
-                <UserPlus className="w-4 h-4" />
+                <UserPlus className="w-4 h-4 text-[#FFB7C5]" />
                 <span>{joiningInvite ? 'Joining...' : 'Join Group'}</span>
               </button>
             </div>
@@ -438,40 +438,40 @@ export default function StudyGroups() {
 
       {/* Share Group Modal */}
       {showShareModal && selectedGroup && (
-        <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4">
-            <div className="flex justify-between items-center pb-2 border-b border-slate-800">
+        <div className="fixed inset-0 bg-[#2E003E]/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white border border-[#E8DDEB] rounded-2xl max-w-lg w-full p-6 shadow-xl space-y-4">
+            <div className="flex justify-between items-center pb-2 border-b border-[#E8DDEB]">
               <div className="flex items-center space-x-2">
-                <Share2 className="w-5 h-5 text-indigo-400" />
-                <h3 className="text-base font-bold text-white">Share Study Group</h3>
+                <Share2 className="w-5 h-5 text-[#2E003E]" />
+                <h3 className="text-base font-bold text-[#2E003E]">Share Study Group</h3>
               </div>
               <button
                 onClick={() => setShowShareModal(false)}
-                className="text-slate-400 hover:text-white text-xs font-semibold"
+                className="text-[#756A78] hover:text-[#2E003E] text-xs font-semibold"
               >
                 ✕
               </button>
             </div>
 
-            <p className="text-slate-400 text-xs leading-relaxed">
+            <p className="text-[#756A78] text-xs leading-relaxed">
               Share this invitation link with classmates so they can view the group preview and join <strong>{selectedGroup.name}</strong>.
             </p>
 
             <div className="space-y-2">
-              <label className="block text-[11px] font-semibold text-slate-400 uppercase">Invitation Link</label>
+              <label className="block text-[11px] font-semibold text-[#756A78] uppercase">Invitation Link</label>
               <div className="flex items-center space-x-2">
                 <input
                   type="text"
                   readOnly
                   value={`${window.location.origin}?join_group=${selectedGroup.id}`}
-                  className="flex-1 px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-indigo-300 text-xs font-mono focus:outline-none"
+                  className="flex-1 px-3.5 py-2.5 bg-[#F8F3F9] border border-[#E8DDEB] rounded-xl text-[#2E003E] text-xs font-mono focus:outline-none"
                 />
                 <button
                   onClick={handleCopyShareLink}
                   className={`px-4 py-2.5 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 shadow-md ${
                     linkCopied
                       ? 'bg-emerald-600 text-white'
-                      : 'bg-indigo-600 hover:bg-indigo-500 text-white'
+                      : 'bg-[#2E003E] hover:opacity-90 text-white border border-[#FFB7C5]/30'
                   }`}
                 >
                   {linkCopied ? (
@@ -481,7 +481,7 @@ export default function StudyGroups() {
                     </>
                   ) : (
                     <>
-                      <Copy className="w-4 h-4" />
+                      <Copy className="w-4 h-4 text-[#FFB7C5]" />
                       <span>Copy Link</span>
                     </>
                   )}
@@ -490,7 +490,7 @@ export default function StudyGroups() {
             </div>
 
             {linkCopied && (
-              <p className="text-[11px] text-emerald-400 font-medium text-center">
+              <p className="text-[11px] text-emerald-700 font-medium text-center">
                 ✓ Link copied to clipboard! Anyone logged in can join this group using this link.
               </p>
             )}
@@ -498,7 +498,7 @@ export default function StudyGroups() {
             <div className="flex justify-end pt-2">
               <button
                 onClick={() => setShowShareModal(false)}
-                className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-semibold"
+                className="px-4 py-2 bg-[#F8F3F9] hover:bg-[#E8DDEB] text-[#756A78] border border-[#E8DDEB] rounded-xl text-xs font-semibold"
               >
                 Done
               </button>
@@ -511,32 +511,32 @@ export default function StudyGroups() {
       {selectedGroup ? (
         <div className="space-y-6">
           {/* Central Study Group Workspace Header */}
-          <div className="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-4 shadow-xl">
+          <div className="bg-white border border-[#E8DDEB] p-6 rounded-2xl space-y-4 shadow-sm">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
                 <button
                   onClick={handleCloseWorkspace}
-                  className="text-xs text-indigo-400 hover:text-indigo-300 font-semibold mb-2 block"
+                  className="text-xs text-[#2E003E] hover:underline font-semibold mb-2 block"
                 >
                   ← Back to All Groups
                 </button>
                 <div className="flex flex-wrap items-center gap-3">
-                  <h2 className="text-2xl font-extrabold text-white">{selectedGroup.name}</h2>
-                  <span className="px-2.5 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded-md text-xs font-mono">
+                  <h2 className="text-2xl font-extrabold text-[#2E003E]">{selectedGroup.name}</h2>
+                  <span className="px-2.5 py-1 bg-[#F8F3F9] text-[#2E003E] border border-[#E8DDEB] rounded-md text-xs font-mono font-semibold">
                     {workspaceDetails?.member_count || selectedGroup.member_count} Members
                   </span>
                   {meetingStatuses[selectedGroup.id]?.active && (
-                    <span className="px-2.5 py-1 bg-rose-500/10 text-rose-400 border border-rose-500/30 rounded-md text-xs font-mono animate-pulse">
+                    <span className="px-2.5 py-1 bg-rose-500/10 text-rose-700 border border-rose-500/30 rounded-md text-xs font-mono animate-pulse font-bold">
                       🔴 Active Meeting ({meetingStatuses[selectedGroup.id].participant_count} Live)
                     </span>
                   )}
                 </div>
-                <p className="text-slate-400 text-sm mt-1">{selectedGroup.description || 'Dedicated study workspace for group members.'}</p>
+                <p className="text-[#756A78] text-sm mt-1">{selectedGroup.description || 'Dedicated study workspace for group members.'}</p>
               </div>
 
               <button
                 onClick={() => handleLeaveGroup(selectedGroup.id)}
-                className="px-3.5 py-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 rounded-xl text-xs font-semibold transition flex items-center space-x-1 shrink-0"
+                className="px-3.5 py-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-700 border border-rose-500/30 rounded-xl text-xs font-semibold transition flex items-center space-x-1 shrink-0"
               >
                 <LogOut className="w-3.5 h-3.5" />
                 <span>Leave Group</span>
@@ -544,14 +544,14 @@ export default function StudyGroups() {
             </div>
 
             {/* Central Workspace Main Actions Bar (Overview | Live Chat | Study Meeting | Share Group) */}
-            <div className="pt-3 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3">
-              <div className="flex items-center space-x-2 bg-slate-950 p-1 rounded-xl border border-slate-800 text-xs font-semibold">
+            <div className="pt-3 border-t border-[#E8DDEB] flex flex-wrap items-center justify-between gap-3">
+              <div className="flex items-center space-x-2 bg-[#F8F3F9] p-1 rounded-xl border border-[#E8DDEB] text-xs font-semibold">
                 <button
                   onClick={() => setWorkspaceMode('overview')}
                   className={`px-4 py-2 rounded-lg transition ${
                     workspaceMode === 'overview'
-                      ? 'bg-indigo-600 text-white shadow-md'
-                      : 'text-slate-400 hover:text-slate-200'
+                      ? 'bg-[#2E003E] text-white shadow-sm'
+                      : 'text-[#756A78] hover:text-[#241A26]'
                   }`}
                 >
                   📋 Workspace Overview
@@ -560,8 +560,8 @@ export default function StudyGroups() {
                   onClick={() => setWorkspaceMode('chat')}
                   className={`px-4 py-2 rounded-lg transition flex items-center space-x-1.5 ${
                     workspaceMode === 'chat'
-                      ? 'bg-indigo-600 text-white shadow-md'
-                      : 'text-slate-400 hover:text-slate-200'
+                      ? 'bg-[#2E003E] text-white shadow-sm'
+                      : 'text-[#756A78] hover:text-[#241A26]'
                   }`}
                 >
                   <MessageSquare className="w-3.5 h-3.5" />
@@ -577,8 +577,8 @@ export default function StudyGroups() {
                   disabled={joiningMeeting}
                   className={`px-4 py-2 rounded-lg transition flex items-center space-x-1.5 ${
                     workspaceMode === 'meeting'
-                      ? 'bg-rose-600 text-white shadow-md'
-                      : 'text-slate-400 hover:text-slate-200'
+                      ? 'bg-rose-600 text-white shadow-sm'
+                      : 'text-[#756A78] hover:text-[#241A26]'
                   }`}
                 >
                   <Video className="w-3.5 h-3.5" />
@@ -594,9 +594,9 @@ export default function StudyGroups() {
 
               <button
                 onClick={() => setShowShareModal(true)}
-                className="px-4 py-2 bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 border border-indigo-500/40 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 shadow-md"
+                className="px-4 py-2 bg-[#F8F3F9] hover:bg-[#E8DDEB] text-[#2E003E] border border-[#E8DDEB] rounded-xl text-xs font-bold transition flex items-center space-x-1.5 shadow-sm"
               >
-                <Share2 className="w-4 h-4 text-indigo-400" />
+                <Share2 className="w-4 h-4 text-[#2E003E]" />
                 <span>🔗 Share Group</span>
               </button>
             </div>
@@ -617,19 +617,19 @@ export default function StudyGroups() {
           ) : workspaceMode === 'chat' ? (
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {/* Left 2 Cols: Real-Time Group Chat Box */}
-              <div className="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl flex flex-col h-[560px]">
-                <div className="flex items-center justify-between pb-3 border-b border-slate-800 mb-4">
+              <div className="lg:col-span-2 bg-white border border-[#E8DDEB] rounded-2xl p-6 shadow-sm flex flex-col h-[560px]">
+                <div className="flex items-center justify-between pb-3 border-b border-[#E8DDEB] mb-4">
                   <div className="flex items-center space-x-2">
-                    <MessageSquare className="w-5 h-5 text-indigo-400" />
-                    <h3 className="text-base font-bold text-white">Group Live Chat</h3>
+                    <MessageSquare className="w-5 h-5 text-[#2E003E]" />
+                    <h3 className="text-base font-bold text-[#241A26]">Group Live Chat</h3>
                   </div>
-                  <span className="text-xs text-slate-400 font-mono">FastAPI WebSockets + PostgreSQL</span>
+                  <span className="text-xs text-[#756A78] font-mono">FastAPI WebSockets + PostgreSQL</span>
                 </div>
 
                 {/* Chat Messages Log */}
                 <div className="flex-1 overflow-y-auto space-y-3 pr-2">
                   {chatMessages.length === 0 ? (
-                    <div className="h-full flex items-center justify-center text-slate-500 text-xs italic">
+                    <div className="h-full flex items-center justify-center text-[#756A78] text-xs italic">
                       No messages yet. Send a real-time message to start the conversation!
                     </div>
                   ) : (
@@ -640,16 +640,16 @@ export default function StudyGroups() {
                           key={msg.id || idx}
                           className={`flex flex-col ${isCurrentUser ? 'items-end' : 'items-start'}`}
                         >
-                          <div className="flex items-center space-x-2 text-[11px] text-slate-400 mb-1 px-1">
-                            <span className="font-semibold text-slate-300">{msg.sender_name}</span>
+                          <div className="flex items-center space-x-2 text-[11px] text-[#756A78] mb-1 px-1">
+                            <span className="font-semibold text-[#2E003E]">{msg.sender_name}</span>
                             <span>•</span>
                             <span>{new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                           </div>
                           <div
-                            className={`max-w-md px-4 py-2.5 rounded-2xl text-xs sm:text-sm shadow-md leading-relaxed ${
+                            className={`max-w-md px-4 py-2.5 rounded-2xl text-xs sm:text-sm shadow-sm leading-relaxed ${
                               isCurrentUser
-                                ? 'bg-indigo-600 text-white rounded-br-none'
-                                : 'bg-slate-950 border border-slate-800 text-slate-200 rounded-bl-none'
+                                ? 'bg-[#2E003E] text-white rounded-br-none'
+                                : 'bg-[#F8F3F9] border border-[#E8DDEB] text-[#241A26] rounded-bl-none'
                             }`}
                           >
                             {msg.message_text}
@@ -662,46 +662,46 @@ export default function StudyGroups() {
                 </div>
 
                 {/* Real-Time Message Input Form */}
-                <form onSubmit={handleSendMessage} className="pt-4 border-t border-slate-800 flex items-center space-x-2">
+                <form onSubmit={handleSendMessage} className="pt-4 border-t border-[#E8DDEB] flex items-center space-x-2">
                   <input
                     type="text"
                     value={chatInput}
                     onChange={(e) => setChatInput(e.target.value)}
                     placeholder="Type a real-time message to group members..."
-                    className="flex-1 px-4 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white placeholder-slate-500 text-xs focus:outline-none focus:border-indigo-500"
+                    className="flex-1 px-4 py-2.5 bg-[#F8F3F9] border border-[#E8DDEB] rounded-xl text-[#241A26] placeholder-[#756A78] text-xs focus:outline-none focus:border-[#2E003E]"
                   />
                   <button
                     type="submit"
                     disabled={!chatInput.trim() || !wsConnected}
-                    className="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl text-xs transition flex items-center space-x-1.5 shadow-lg disabled:opacity-50"
+                    className="px-4 py-2.5 bg-[#2E003E] hover:opacity-90 text-white font-semibold rounded-xl text-xs transition flex items-center space-x-1.5 shadow-md disabled:opacity-50"
                   >
-                    <Send className="w-4 h-4" />
+                    <Send className="w-4 h-4 text-[#FFB7C5]" />
                     <span>Send</span>
                   </button>
                 </form>
               </div>
 
               {/* Right 1 Col: Group Roster */}
-              <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
-                <div className="flex items-center space-x-2 pb-3 border-b border-slate-800">
-                  <Users className="w-5 h-5 text-emerald-400" />
-                  <h3 className="text-base font-bold text-white">Group Roster</h3>
+              <div className="bg-white border border-[#E8DDEB] rounded-2xl p-6 shadow-sm space-y-4">
+                <div className="flex items-center space-x-2 pb-3 border-b border-[#E8DDEB]">
+                  <Users className="w-5 h-5 text-[#2E003E]" />
+                  <h3 className="text-base font-bold text-[#241A26]">Group Roster</h3>
                 </div>
 
                 {workspaceLoading ? (
-                  <div className="py-8 text-center text-slate-400 text-xs">Loading members...</div>
+                  <div className="py-8 text-center text-[#756A78] text-xs">Loading members...</div>
                 ) : (
                   <div className="space-y-3 max-h-[460px] overflow-y-auto">
                     {workspaceDetails?.members?.map((m) => (
-                      <div key={m.id} className="p-3 bg-slate-950/60 border border-slate-800/80 rounded-xl flex items-center space-x-3">
-                        <div className="w-8 h-8 rounded-lg bg-indigo-600/30 border border-indigo-500/40 text-indigo-300 font-bold text-xs flex items-center justify-center">
+                      <div key={m.id} className="p-3 bg-[#F8F3F9] border border-[#E8DDEB] rounded-xl flex items-center space-x-3">
+                        <div className="w-8 h-8 rounded-lg bg-[#2E003E] text-white font-bold text-xs flex items-center justify-center">
                           {m.name[0].toUpperCase()}
                         </div>
                         <div className="truncate">
-                          <p className="text-xs font-semibold text-white truncate">
+                          <p className="text-xs font-semibold text-[#241A26] truncate">
                             {m.name} {m.user_id === user?.id && '(You)'}
                           </p>
-                          <p className="text-[10px] text-slate-400 font-mono">
+                          <p className="text-[10px] text-[#756A78] font-mono">
                             Joined {new Date(m.joined_at).toLocaleDateString()}
                           </p>
                         </div>
@@ -722,13 +722,13 @@ export default function StudyGroups() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div
                     onClick={() => setWorkspaceMode('chat')}
-                    className="p-5 bg-slate-900 border border-slate-800 hover:border-indigo-500/40 rounded-2xl shadow-xl cursor-pointer transition group"
+                    className="p-5 bg-white border border-[#E8DDEB] hover:border-[#FFB7C5] rounded-2xl shadow-sm cursor-pointer transition group"
                   >
-                    <div className="w-10 h-10 rounded-xl bg-indigo-600/20 text-indigo-400 flex items-center justify-center mb-3 group-hover:scale-105 transition">
+                    <div className="w-10 h-10 rounded-xl bg-[#F8F3F9] border border-[#E8DDEB] text-[#2E003E] flex items-center justify-center mb-3 group-hover:scale-105 transition">
                       <MessageSquare className="w-5 h-5" />
                     </div>
-                    <h4 className="text-base font-bold text-white group-hover:text-indigo-300 transition">Group Live Chat</h4>
-                    <p className="text-slate-400 text-xs mt-1">Real-time WebSockets group discussions with PostgreSQL history.</p>
+                    <h4 className="text-base font-bold text-[#241A26] group-hover:text-[#2E003E] transition">Group Live Chat</h4>
+                    <p className="text-[#756A78] text-xs mt-1">Real-time WebSockets group discussions with PostgreSQL history.</p>
                   </div>
 
                   <div
@@ -738,15 +738,15 @@ export default function StudyGroups() {
                       setWorkspaceMode('meeting');
                       setJoiningMeeting(false);
                     }}
-                    className="p-5 bg-slate-900 border border-slate-800 hover:border-rose-500/40 rounded-2xl shadow-xl cursor-pointer transition group"
+                    className="p-5 bg-white border border-[#E8DDEB] hover:border-rose-500/40 rounded-2xl shadow-sm cursor-pointer transition group"
                   >
-                    <div className="w-10 h-10 rounded-xl bg-rose-600/20 text-rose-400 flex items-center justify-center mb-3 group-hover:scale-105 transition">
+                    <div className="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-600 flex items-center justify-center mb-3 group-hover:scale-105 transition">
                       <Video className="w-5 h-5" />
                     </div>
-                    <h4 className="text-base font-bold text-white group-hover:text-rose-300 transition">
+                    <h4 className="text-base font-bold text-[#241A26] group-hover:text-rose-700 transition">
                       {meetingStatuses[selectedGroup.id]?.active ? 'Join Active Meeting' : 'Virtual Study Meeting'}
                     </h4>
-                    <p className="text-slate-400 text-xs mt-1">
+                    <p className="text-[#756A78] text-xs mt-1">
                       {meetingStatuses[selectedGroup.id]?.active
                         ? `Meeting currently in progress (${meetingStatuses[selectedGroup.id].participant_count} members connected).`
                         : 'Start Google-Meet-style WebRTC video/audio conferencing.'}
@@ -755,26 +755,26 @@ export default function StudyGroups() {
                 </div>
 
                 {/* Group Information & Subject Metadata */}
-                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
-                  <div className="flex items-center space-x-2 pb-3 border-b border-slate-800">
-                    <Info className="w-5 h-5 text-indigo-400" />
-                    <h3 className="text-base font-bold text-white">Group Information</h3>
+                <div className="bg-white border border-[#E8DDEB] rounded-2xl p-6 shadow-sm space-y-4">
+                  <div className="flex items-center space-x-2 pb-3 border-b border-[#E8DDEB]">
+                    <Info className="w-5 h-5 text-[#2E003E]" />
+                    <h3 className="text-base font-bold text-[#241A26]">Group Information</h3>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-                    <div className="p-3 bg-slate-950 border border-slate-800/80 rounded-xl">
-                      <span className="text-slate-500 block mb-1">Created By</span>
-                      <span className="font-semibold text-white">{workspaceDetails?.creator_name || selectedGroup.creator_name || 'Admin'}</span>
+                    <div className="p-3 bg-[#F8F3F9] border border-[#E8DDEB] rounded-xl">
+                      <span className="text-[#756A78] block mb-1">Created By</span>
+                      <span className="font-semibold text-[#2E003E]">{workspaceDetails?.creator_name || selectedGroup.creator_name || 'Admin'}</span>
                     </div>
-                    <div className="p-3 bg-slate-950 border border-slate-800/80 rounded-xl">
-                      <span className="text-slate-500 block mb-1">Created On</span>
-                      <span className="font-semibold text-white">{new Date(selectedGroup.created_at).toLocaleDateString()}</span>
+                    <div className="p-3 bg-[#F8F3F9] border border-[#E8DDEB] rounded-xl">
+                      <span className="text-[#756A78] block mb-1">Created On</span>
+                      <span className="font-semibold text-[#2E003E]">{new Date(selectedGroup.created_at).toLocaleDateString()}</span>
                     </div>
                   </div>
 
                   <div>
-                    <span className="text-xs text-slate-400 font-semibold block mb-1">Description</span>
-                    <p className="text-slate-300 text-xs leading-relaxed p-3 bg-slate-950 border border-slate-800/80 rounded-xl">
+                    <span className="text-xs text-[#756A78] font-semibold block mb-1">Description</span>
+                    <p className="text-[#241A26] text-xs leading-relaxed p-3 bg-[#F8F3F9] border border-[#E8DDEB] rounded-xl">
                       {selectedGroup.description || 'No additional description provided for this study workspace.'}
                     </p>
                   </div>
@@ -783,26 +783,26 @@ export default function StudyGroups() {
               </div>
 
               {/* Right 1 Col: Group Roster Sidebar */}
-              <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
-                <div className="flex items-center space-x-2 pb-3 border-b border-slate-800">
-                  <Users className="w-5 h-5 text-emerald-400" />
-                  <h3 className="text-base font-bold text-white">Group Roster ({workspaceDetails?.member_count || selectedGroup.member_count})</h3>
+              <div className="bg-white border border-[#E8DDEB] rounded-2xl p-6 shadow-sm space-y-4">
+                <div className="flex items-center space-x-2 pb-3 border-b border-[#E8DDEB]">
+                  <Users className="w-5 h-5 text-[#2E003E]" />
+                  <h3 className="text-base font-bold text-[#241A26]">Group Roster ({workspaceDetails?.member_count || selectedGroup.member_count})</h3>
                 </div>
 
                 {workspaceLoading ? (
-                  <div className="py-8 text-center text-slate-400 text-xs">Loading members...</div>
+                  <div className="py-8 text-center text-[#756A78] text-xs">Loading members...</div>
                 ) : (
                   <div className="space-y-3 max-h-[460px] overflow-y-auto">
                     {workspaceDetails?.members?.map((m) => (
-                      <div key={m.id} className="p-3 bg-slate-950/60 border border-slate-800/80 rounded-xl flex items-center space-x-3">
-                        <div className="w-8 h-8 rounded-lg bg-indigo-600/30 border border-indigo-500/40 text-indigo-300 font-bold text-xs flex items-center justify-center">
+                      <div key={m.id} className="p-3 bg-[#F8F3F9] border border-[#E8DDEB] rounded-xl flex items-center space-x-3">
+                        <div className="w-8 h-8 rounded-lg bg-[#2E003E] text-white font-bold text-xs flex items-center justify-center">
                           {m.name[0].toUpperCase()}
                         </div>
                         <div className="truncate">
-                          <p className="text-xs font-semibold text-white truncate">
+                          <p className="text-xs font-semibold text-[#241A26] truncate">
                             {m.name} {m.user_id === user?.id && '(You)'}
                           </p>
-                          <p className="text-[10px] text-slate-400 font-mono">
+                          <p className="text-[10px] text-[#756A78] font-mono">
                             Joined {new Date(m.joined_at).toLocaleDateString()}
                           </p>
                         </div>
@@ -819,35 +819,35 @@ export default function StudyGroups() {
         /* Default List / Browse Groups View */
         <>
           {/* Header Banner */}
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-gradient-to-r from-indigo-900/50 via-slate-900 to-slate-900 border border-indigo-500/30 p-6 rounded-2xl">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-[#2E003E] text-white p-6 rounded-2xl shadow-md">
             <div>
-              <div className="flex items-center space-x-2 text-indigo-400 text-xs font-semibold uppercase tracking-wider mb-1">
-                <Users className="w-3.5 h-3.5" />
+              <div className="flex items-center space-x-2 text-[#FFB7C5] text-xs font-semibold uppercase tracking-wider mb-1">
+                <Users className="w-3.5 h-3.5 text-[#FFB7C5]" />
                 <span>Collaborative Study Workspaces</span>
               </div>
               <h2 className="text-2xl font-bold text-white">Study Groups</h2>
-              <p className="text-slate-400 text-sm mt-1">
+              <p className="text-white/80 text-sm mt-1">
                 Join course groups, collaborate on resources, participate in live chat, and start WebRTC study meetings.
               </p>
             </div>
             <button
               onClick={() => setShowCreateModal(true)}
-              className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl shadow-lg transition flex items-center space-x-2 text-sm shrink-0"
+              className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl shadow-md transition flex items-center space-x-2 text-sm shrink-0 border border-[#FFB7C5]/30"
             >
-              <PlusCircle className="w-4 h-4" />
+              <PlusCircle className="w-4 h-4 text-[#FFB7C5]" />
               <span>Create Group</span>
             </button>
           </div>
 
           {/* Navigation Sub-Tabs & Search */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div className="flex items-center space-x-2 bg-slate-900 p-1.5 rounded-xl border border-slate-800 text-xs font-semibold">
+            <div className="flex items-center space-x-2 bg-white p-1.5 rounded-xl border border-[#E8DDEB] text-xs font-semibold shadow-sm">
               <button
                 onClick={() => setActiveTab('my-groups')}
                 className={`px-4 py-2 rounded-lg transition ${
                   activeTab === 'my-groups'
-                    ? 'bg-indigo-600 text-white shadow-md'
-                    : 'text-slate-400 hover:text-slate-200'
+                    ? 'bg-[#2E003E] text-white shadow-sm'
+                    : 'text-[#756A78] hover:text-[#241A26]'
                 }`}
               >
                 My Groups
@@ -856,8 +856,8 @@ export default function StudyGroups() {
                 onClick={() => setActiveTab('browse')}
                 className={`px-4 py-2 rounded-lg transition ${
                   activeTab === 'browse'
-                    ? 'bg-indigo-600 text-white shadow-md'
-                    : 'text-slate-400 hover:text-slate-200'
+                    ? 'bg-[#2E003E] text-white shadow-sm'
+                    : 'text-[#756A78] hover:text-[#241A26]'
                 }`}
               >
                 Browse All Groups
@@ -865,56 +865,56 @@ export default function StudyGroups() {
             </div>
 
             <div className="relative max-w-xs w-full">
-              <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+              <Search className="w-4 h-4 text-[#756A78] absolute left-3.5 top-3" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search groups by name or subject..."
-                className="w-full pl-10 pr-4 py-2 bg-slate-900 border border-slate-800 rounded-xl text-white placeholder-slate-500 text-xs focus:outline-none focus:border-indigo-500"
+                className="w-full pl-10 pr-4 py-2 bg-white border border-[#E8DDEB] rounded-xl text-[#241A26] placeholder-[#756A78] text-xs focus:outline-none focus:border-[#2E003E] shadow-sm"
               />
             </div>
           </div>
 
           {/* Create Group Modal */}
           {showCreateModal && (
-            <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-              <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4">
-                <h3 className="text-lg font-bold text-white">Create New Study Group</h3>
+            <div className="fixed inset-0 bg-[#2E003E]/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+              <div className="bg-white border border-[#E8DDEB] rounded-2xl max-w-lg w-full p-6 shadow-xl space-y-4">
+                <h3 className="text-lg font-bold text-[#2E003E]">Create New Study Group</h3>
                 <form onSubmit={handleCreateGroup} className="space-y-4">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-300 uppercase mb-1">Group Name</label>
+                    <label className="block text-xs font-semibold text-[#2E003E] uppercase mb-1">Group Name</label>
                     <input
                       type="text"
                       value={groupName}
                       onChange={(e) => setGroupName(e.target.value)}
                       placeholder="e.g. B.Tech Cloud Computing & AWS"
                       required
-                      className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500"
+                      className="w-full px-3.5 py-2.5 bg-[#F8F3F9] border border-[#E8DDEB] rounded-xl text-[#241A26] placeholder-[#756A78] text-sm focus:outline-none focus:border-[#2E003E]"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-slate-300 uppercase mb-1">Description</label>
+                    <label className="block text-xs font-semibold text-[#2E003E] uppercase mb-1">Description</label>
                     <textarea
                       value={groupDesc}
                       onChange={(e) => setGroupDesc(e.target.value)}
                       rows={3}
                       placeholder="Brief topic summary, subject code, or goals..."
-                      className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500"
+                      className="w-full px-3.5 py-2.5 bg-[#F8F3F9] border border-[#E8DDEB] rounded-xl text-[#241A26] placeholder-[#756A78] text-sm focus:outline-none focus:border-[#2E003E]"
                     />
                   </div>
                   <div className="flex justify-end space-x-3 pt-2">
                     <button
                       type="button"
                       onClick={() => setShowCreateModal(false)}
-                      className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-semibold"
+                      className="px-4 py-2 bg-[#F8F3F9] hover:bg-[#E8DDEB] text-[#756A78] border border-[#E8DDEB] rounded-xl text-xs font-semibold"
                     >
                       Cancel
                     </button>
                     <button
                       type="submit"
                       disabled={creating}
-                      className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-lg disabled:opacity-50"
+                      className="px-4 py-2 bg-[#2E003E] hover:opacity-90 text-white rounded-xl text-xs font-semibold shadow-md disabled:opacity-50"
                     >
                       {creating ? 'Creating...' : 'Create Group'}
                     </button>
@@ -926,9 +926,9 @@ export default function StudyGroups() {
 
           {/* Groups Grid Cards */}
           {loading ? (
-            <div className="py-12 text-center text-slate-400 text-sm">Loading study groups...</div>
+            <div className="py-12 text-center text-[#756A78] text-sm">Loading study groups...</div>
           ) : filteredGroups.length === 0 ? (
-            <div className="p-12 bg-slate-900/60 border border-slate-800 rounded-2xl text-center text-slate-400 text-sm">
+            <div className="p-12 bg-white border border-[#E8DDEB] rounded-2xl text-center text-[#756A78] text-sm shadow-sm">
               {activeTab === 'my-groups'
                 ? "You haven't joined any study groups yet. Switch to 'Browse All Groups' or create your own!"
                 : "No study groups found matching your search."}
@@ -942,45 +942,45 @@ export default function StudyGroups() {
                 return (
                   <div
                     key={g.id}
-                    className="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 shadow-xl flex flex-col justify-between hover:border-indigo-500/40 transition group"
+                    className="bg-white border border-[#E8DDEB] rounded-2xl p-6 shadow-sm flex flex-col justify-between hover:border-[#FFB7C5] transition group"
                   >
                     <div className="space-y-3">
                       <div className="flex justify-between items-start">
-                        <span className="px-2.5 py-1 bg-indigo-500/10 text-indigo-300 border border-indigo-500/30 rounded-md text-xs font-mono">
+                        <span className="px-2.5 py-1 bg-[#F8F3F9] text-[#2E003E] border border-[#E8DDEB] rounded-md text-xs font-mono font-semibold">
                           {g.member_count} {g.member_count === 1 ? 'Member' : 'Members'}
                         </span>
                         {g.is_member && (
-                          <span className="px-2 py-0.5 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded text-[11px] font-semibold">
+                          <span className="px-2 py-0.5 bg-emerald-500/10 text-emerald-700 border border-emerald-500/30 rounded text-[11px] font-semibold">
                             Joined
                           </span>
                         )}
                       </div>
                       <h3
                         onClick={() => g.is_member && handleOpenWorkspace(g, 'overview')}
-                        className={`text-lg font-bold text-white line-clamp-1 transition ${
-                          g.is_member ? 'hover:text-indigo-300 cursor-pointer' : ''
+                        className={`text-lg font-bold text-[#2E003E] line-clamp-1 transition ${
+                          g.is_member ? 'hover:underline cursor-pointer' : ''
                         }`}
                       >
                         {g.name}
                       </h3>
-                      <p className="text-slate-400 text-xs line-clamp-2 leading-relaxed">
+                      <p className="text-[#756A78] text-xs line-clamp-2 leading-relaxed">
                         {g.description || 'No description provided.'}
                       </p>
-                      <p className="text-[11px] text-slate-500 font-mono">Created by {g.creator_name}</p>
+                      <p className="text-[11px] text-[#756A78] font-mono">Created by {g.creator_name}</p>
                     </div>
 
-                    <div className="pt-5 border-t border-slate-800/80 mt-4 flex items-center justify-between gap-2">
+                    <div className="pt-5 border-t border-[#E8DDEB] mt-4 flex items-center justify-between gap-2">
                       {g.is_member ? (
                         <>
                           <button
                             onClick={() => handleOpenWorkspace(g, 'overview')}
-                            className="flex-1 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl text-xs transition flex items-center justify-center space-x-1.5 shadow-md"
+                            className="flex-1 py-2 bg-[#2E003E] hover:opacity-90 text-white font-semibold rounded-xl text-xs transition flex items-center justify-center space-x-1.5 shadow-md"
                           >
                             <span>Open Workspace</span>
                           </button>
                           <button
                             onClick={() => handleLeaveGroup(g.id)}
-                            className="p-2 bg-slate-800 hover:bg-rose-500/20 text-slate-400 hover:text-rose-400 rounded-xl transition"
+                            className="p-2 bg-[#F8F3F9] hover:bg-rose-500/20 text-[#756A78] hover:text-rose-600 rounded-xl border border-[#E8DDEB] transition"
                             title="Leave Group"
                           >
                             <LogOut className="w-4 h-4" />
@@ -989,7 +989,7 @@ export default function StudyGroups() {
                       ) : (
                         <button
                           onClick={() => handleJoinGroup(g.id)}
-                          className="w-full py-2 bg-slate-800 hover:bg-indigo-600 text-slate-200 hover:text-white font-semibold rounded-xl text-xs transition flex items-center justify-center space-x-1.5 border border-slate-700"
+                          className="w-full py-2 bg-[#F8F3F9] hover:bg-[#E8DDEB] text-[#2E003E] font-semibold rounded-xl text-xs transition flex items-center justify-center space-x-1.5 border border-[#E8DDEB]"
                         >
                           <UserPlus className="w-3.5 h-3.5" />
                           <span>Join Group</span>

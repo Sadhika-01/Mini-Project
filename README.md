@@ -1,4 +1,4 @@
-# AI-Assisted Collaborative Learning Platform using Cloud Computing
+# AI-Assisted Collaborative Learning Platform using Cloud Computing 
 
 A unified cloud-based platform for students to collaborate in study groups, receive AI-assisted learning support (Google Gemini API), generate PDF summaries and quizzes, track study goals, and monitor learning analytics.
 
